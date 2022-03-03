@@ -1,10 +1,10 @@
-name: Release/pre-release Preparation.
+name: OSSRH_SNAPSHOT_URL/pre-OSSRH_SNAPSHOT_URL Preparation.
 
 on:
   workflow_dispatch:
     inputs:
       message:
-        description: 'Triggered for release or pe-release'     
+        description: 'Triggered for OSSRH_SNAPSHOT_URL or pe-OSSRH_SNAPSHOT_URL'
         required: false
         default: 'Release Preparation'
       releaseTags:
@@ -33,7 +33,7 @@ jobs:
     - name: Updating the Release URL in POM 
       run: |
           cd .github/workflows
-          sed -i 's/OSSRH_SNAPSHOT_URL/RELEASE_URL/g' push_trigger.yml
+          sed -i 's/OSSRH_SNAPSHOT_URL/OSSRH_SNAPSHOT_URL/g' push_trigger.yml
 
     - name: Updating libs-snapshot-local to libs-release local for artifactory URL's.
       run: find . -type f -name "*Dockerfile" -print0 | xargs -0 sed -i "s/libs-snapshot-local/libs-release-local/g"
