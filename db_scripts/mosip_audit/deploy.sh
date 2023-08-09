@@ -15,6 +15,13 @@ else
      echo `date "+%m/%d/%Y %H:%M:%S"` ": Property file not found, Pass property file name as argument."
 fi
 
+## Function to display error message
+function print_err {
+  echo "$1"
+  printf "%s\n" "$2"
+  exit 1
+}
+
 ## Terminate existing connections
 echo "Terminating active connections" 
 CONN=$(PGPASSWORD=$SU_USER_PWD psql --username=$SU_USER --host=$DB_SERVERIP --port=$DB_PORT --dbname=$DEFAULT_DB_NAME -t -c "SELECT count(pg_terminate_backend(pg_stat_activity.pid)) FROM pg_stat_activity WHERE datname = '$MOSIP_DB_NAME' AND pid <> pg_backend_pid()";exit;)
