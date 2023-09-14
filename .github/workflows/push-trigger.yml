@@ -24,8 +24,8 @@ jobs:
   build-maven-audit-manager:
     uses: mosip/kattu/.github/workflows/maven-build.yml@master
     with:
-      SERVICE_LOCATION: kernel
-      BUILD_ARTIFACT: audit-manager
+      SERVICE_LOCATION: kernel/kernel-auditmanager-service
+      BUILD_ARTIFACT: kernel-auditmanager-service
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
@@ -38,7 +38,7 @@ jobs:
     needs: build-maven-audit-manager
     uses: mosip/kattu/.github/workflows/maven-publish-to-nexus.yml@master
     with:
-      SERVICE_LOCATION: kernel
+      SERVICE_LOCATION: kernel/kernel-auditmanager-service
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
@@ -54,7 +54,7 @@ jobs:
         include:
           - SERVICE_LOCATION: 'kernel/kernel-auditmanager-service'
             SERVICE_NAME: 'kernel-auditmanager-service'
-            BUILD_ARTIFACT: 'audit-manager'
+            BUILD_ARTIFACT: 'kernel-auditmanager-service'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
     uses: mosip/kattu/.github/workflows/docker-build.yml@master
@@ -73,7 +73,7 @@ jobs:
     if: "${{  github.event_name != 'pull_request' }}"
     uses: mosip/kattu/.github/workflows/maven-sonar-analysis.yml@master
     with:
-      SERVICE_LOCATION: kernel
+      SERVICE_LOCATION: kernel/kernel-auditmanager-service
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       ORG_KEY: ${{ secrets.ORG_KEY }}
