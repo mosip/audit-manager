@@ -25,7 +25,7 @@ jobs:
     uses: mosip/kattu/.github/workflows/maven-build.yml@master
     with:
       SERVICE_LOCATION: kernel/kernel-auditmanager-service
-      BUILD_ARTIFACT: kernel-auditmanager-service
+      BUILD_ARTIFACT: audit-manager
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
@@ -54,7 +54,7 @@ jobs:
         include:
           - SERVICE_LOCATION: 'kernel/kernel-auditmanager-service'
             SERVICE_NAME: 'kernel-auditmanager-service'
-            BUILD_ARTIFACT: 'kernel-auditmanager-service'
+            BUILD_ARTIFACT: 'audit-manager'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
     uses: mosip/kattu/.github/workflows/docker-build.yml@master
