@@ -213,7 +213,7 @@
 		<micrometer.registry.prometheus.version>1.4.2</micrometer.registry.prometheus.version>
 		<springdoc.version>1.5.10</springdoc.version>
 		<kernel.core.version>1.2.0.1-B2</kernel.core.version>
-		<kernel.auth-adapter.version>1.2.0.1-B2</kernel.auth-adapter.version>
+		<kernel.auth-adapter.version>1.2.0.1-B3</kernel.auth-adapter.version>
 		<kernel.applicant-type.version>1.2.0.1-B2</kernel.applicant-type.version>
 		<kernel.dataaccess-hibernate.version>1.2.0.1-B2</kernel.dataaccess-hibernate.version>
 		<kernel.audit-api.version>1.2.0.1-B2</kernel.audit-api.version>
@@ -491,7 +491,7 @@
 				<dependency>
 					<groupId>io.mosip.kernel</groupId>
 					<artifactId>kernel-auth-adapter</artifactId>
-					<version>1.2.0.1-B2</version>
+					<version>1.2.0.1-B3</version>
 				</dependency>
 			</dependencies>
 			<build>
