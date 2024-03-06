@@ -58,7 +58,9 @@ ARG container_user_gid=1001
 RUN apt-get -y update \
 && apt-get install -y unzip \
 && groupadd -g ${container_user_gid} ${container_user_group} \
-&& useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user}
+&& useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user} \
+&& mkdir -p ${loader_path} \
+&& chown -R ${container_user}:${container_user} /home/${container_user}
 
 # set working directory for the user
 WORKDIR /home/${container_user}
@@ -67,14 +69,9 @@ ENV work_dir=/home/${container_user}
 
 ARG loader_path=${work_dir}/additional_jars/
 
-RUN mkdir -p ${loader_path}
-
 ENV loader_path_env=${loader_path}
 
 COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
-
-# change permissions of file inside working dir
-RUN chown -R ${container_user}:${container_user} /home/${container_user}
 
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
