@@ -21,19 +21,17 @@ ARG container_user_uid=1001
 ARG container_user_gid=1001
 ARG loader_path=/home/${container_user}/additional_jars/
 
-# Install packages and create user
-RUN apt-get -y update \
-    && apt-get install -y unzip \
-    && groupadd -g ${container_user_gid} ${container_user_group} \
-    && useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user} \
-    && mkdir -p ${loader_path}
-
 # Set working directory and copy application jar
 WORKDIR /home/${container_user}
 COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
 
 # Change permissions of files
-RUN chown -R ${container_user}:${container_user} /home/${container_user}
+RUN apt-get -y update \
+    && apt-get install -y unzip \
+    && groupadd -g ${container_user_gid} ${container_user_group} \
+    && useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user} \
+    && mkdir -p ${loader_path} \
+    && chown -R ${container_user}:${container_user} /home/${container_user}
 
 # Environment variables for runtime configuration
 ENV active_profile_env=${active_profile}
