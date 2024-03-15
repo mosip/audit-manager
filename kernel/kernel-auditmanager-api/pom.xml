@@ -22,8 +22,8 @@
 		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
 
 		<!-- spring -->
-		<spring.boot.version>3.2.2</spring.boot.version>
-		<spring.data.jpa.version>3.2.2</spring.data.jpa.version>
+		<spring.boot.version>3.2.3</spring.boot.version>
+		<spring.data.jpa.version>3.2.3</spring.data.jpa.version>
 		<spring.security.test.version>6.2.1</spring.security.test.version>
 		<spring-cloud-config.version>4.1.0</spring-cloud-config.version>
 
@@ -61,7 +61,7 @@
 
 		<!-- logger -->
 		<logback.version>1.2.3</logback.version>
-		<slf4j.version>1.7.19</slf4j.version>
+		<slf4j.version>2.0.7</slf4j.version>
 		<log4j-over-slf4j>1.7.7</log4j-over-slf4j>
 		<jcl.to.slf4j.version>1.7.25</jcl.to.slf4j.version>
 
@@ -123,6 +123,16 @@
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-core</artifactId>
 			<version>${kernel.core.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -132,6 +142,10 @@
 				<exclusion>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -167,6 +181,11 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
 
