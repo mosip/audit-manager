@@ -5,13 +5,13 @@
 	<groupId>io.mosip.kernel</groupId>
 
 	<artifactId>kernel-auditmanager-service</artifactId>
-	<version>1.2.1-java17-SNAPSHOT</version>
+	<version>1.2.1-java21-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- maven -->
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<maven.compiler.version>3.8.0</maven.compiler.version>
 
 		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
@@ -20,11 +20,11 @@
 		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
 
 		<!-- spring -->
-		<kernel.core.version>1.2.1-java17-SNAPSHOT</kernel.core.version>
-		<kernel.applicant-type.version>1.2.1-SNAPSHOT</kernel.applicant-type.version>
-		<kernel.audit-api.version>1.2.1-java17-SNAPSHOT</kernel.audit-api.version>
-		<kernel.logger.version>1.2.1-java17-SNAPSHOT</kernel.logger.version>
-		<kernel-dataaccess-hibernate-version>1.2.1-java17-SNAPSHOT</kernel-dataaccess-hibernate-version>
+		<kernel.core.version>1.2.1-java21-SNAPSHOT</kernel.core.version>
+		<kernel.applicant-type.version>1.2.1-java21-SNAPSHOT</kernel.applicant-type.version>
+		<kernel.audit-api.version>1.2.1-java21-SNAPSHOT</kernel.audit-api.version>
+		<kernel.logger.version>1.2.1-java21-SNAPSHOT</kernel.logger.version>
+		<kernel-dataaccess-hibernate-version>1.2.1-java21-SNAPSHOT</kernel-dataaccess-hibernate-version>
 
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java"</sonar.coverage.exclusions>
 		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
@@ -34,7 +34,7 @@
 			<dependency>
 				<groupId>io.mosip.kernel</groupId>
 				<artifactId>kernel-bom</artifactId>
-				<version>1.2.1-java17-SNAPSHOT</version>
+				<version>1.2.1-java21-SNAPSHOT</version>
 				<type>pom</type>
 			    <scope>import</scope>
 			</dependency>
@@ -306,7 +306,7 @@
 				<dependency>
 					<groupId>io.mosip.kernel</groupId>
 					<artifactId>kernel-auth-adapter</artifactId>
-					<version>1.2.1-java17-SNAPSHOT</version>
+					<version>1.2.1-java21-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
 			<build>
