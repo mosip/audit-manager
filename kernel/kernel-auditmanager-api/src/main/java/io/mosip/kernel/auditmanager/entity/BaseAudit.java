@@ -3,10 +3,9 @@ package io.mosip.kernel.auditmanager.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,9 +16,9 @@ import lombok.Data;
  * @since 1.0.0
  *
  */
-@MappedSuperclass
 @Data
 @AllArgsConstructor
+@MappedSuperclass
 public class BaseAudit {
 
 	/**
