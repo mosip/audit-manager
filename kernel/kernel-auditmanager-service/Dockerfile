@@ -9,12 +9,22 @@ LABEL commit_hash=${COMMIT_HASH}
 LABEL commit_id=${COMMIT_ID}
 LABEL build_time=${BUILD_TIME}
 
-# Environment variables for build-time configuration
-ARG spring_config_label
+# can be passed during Docker build as build time environment for github branch to pickup configuration from | spring profiles active | config server URL | glowroot and artifactory URL respectively .
+ARG spring_config_label 
 ARG active_profile
-ARG spring_config_url
+ARG spring_config_url 
 ARG is_glowroot
 ARG artifactory_url
+
+# environment variable to pass active profile such as DEV, QA etc at docker runtime | github branch to pickup configuration from, at docker runtime | spring configuration url, at docker runtime | glowroot, at docker runtime | artifactory url, at docker runtime and iam_adapter url, at docker runtime, respectively.
+ENV active_profile_env=${active_profile}
+ENV spring_config_label_env=${spring_config_label}
+ENV spring_config_url_env=${spring_config_url}
+ENV is_glowroot_env=${is_glowroot}
+ENV artifactory_url_env=${artifactory_url}
+ENV iam_adapter_url_env=${iam_adapter_url}
+ENV loader_path_env=${loader_path}
+
 ARG container_user=mosip
 ARG container_user_group=mosip
 ARG container_user_uid=1001
@@ -23,23 +33,16 @@ ARG loader_path=/home/${container_user}/additional_jars/
 
 # Set working directory and copy application jar
 WORKDIR /home/${container_user}
+
 COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
 
-# Change permissions of files
+# install packages, create user and Change permissions of files
 RUN apt-get -y update \
     && apt-get install -y unzip \
     && groupadd -g ${container_user_gid} ${container_user_group} \
     && useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user} \
     && mkdir -p ${loader_path} \
     && chown -R ${container_user}:${container_user} /home/${container_user}
-
-# Environment variables for runtime configuration
-ENV active_profile_env=${active_profile}
-ENV spring_config_label_env=${spring_config_label}
-ENV spring_config_url_env=${spring_config_url}
-ENV is_glowroot_env=${is_glowroot}
-ENV artifactory_url_env=${artifactory_url}
-ENV loader_path_env=${loader_path}
 
 # Expose port
 EXPOSE 8081
