@@ -59,7 +59,7 @@ COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
 
 # install packages, create user and Change permissions of files.
 RUN apt-get -y update \
-    && apt-get install -y unzip \
+    && apt-get install -y unzip wget \
     && groupadd -g ${container_user_gid} ${container_user_group} \
     && useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user} \
     && mkdir -p ${loader_path} \
