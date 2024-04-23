@@ -58,8 +58,6 @@ LABEL build_time=${BUILD_TIME}
 # set working directory for the user
 WORKDIR /home/${container_user}
 
-COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
-
 ## install packages, create user and change permissions of file inside working dir
 RUN apk -q update \
 && apk add -q unzip wget \
@@ -67,6 +65,8 @@ RUN apk -q update \
 && adduser -s /bin/sh -u ${container_user_uid} -G ${container_user_group} -h /home/${container_user} --disabled-password ${container_user} \
 && mkdir -p ${loader_path} \
 && chown -R ${container_user}:${container_user} /home/${container_user}
+
+COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
 
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
