@@ -55,9 +55,6 @@ LABEL commit_hash=${COMMIT_HASH}
 LABEL commit_id=${COMMIT_ID}
 LABEL build_time=${BUILD_TIME}
 
-# set working directory for the user
-WORKDIR /home/${container_user}
-
 ## install packages, create user and change permissions of file inside working dir
 RUN apk -q update \
 && apk add -q unzip wget \
@@ -67,6 +64,9 @@ RUN apk -q update \
 && chown -R ${container_user}:${container_user} /home/${container_user}
 
 COPY ./target/kernel-auditmanager-service-*.jar kernel-auditmanager-service.jar
+
+# set working directory for the user
+WORKDIR /home/${container_user}
 
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
