@@ -24,6 +24,7 @@
 		<kernel.applicant-type.version>1.3.0-beta.1</kernel.applicant-type.version>
 		<kernel.audit-api.version>1.3.0-SNAPSHOT</kernel.audit-api.version>
 		<kernel.logger.version>1.3.0-beta.1</kernel.logger.version>
+		<mosip.openid.bridge.version>1.3.0-beta.1</mosip.openid.bridge.version>
 		<kernel-dataaccess-hibernate-version>1.3.0-beta.1</kernel-dataaccess-hibernate-version>
 
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java"</sonar.coverage.exclusions>
@@ -307,7 +308,7 @@
 				<dependency>
 					<groupId>io.mosip.kernel</groupId>
 					<artifactId>kernel-auth-adapter</artifactId>
-					<version>1.3.0-SNAPSHOT</version>
+					<version>${mosip.openid.bridge.version}</version>
 				</dependency>
 			</dependencies>
 			<build>
