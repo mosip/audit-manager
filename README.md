@@ -10,7 +10,7 @@ This repository contains modules used for audit related functionalities.
 Refer to [SQL scripts](db_scripts).
 
 ## Build & run (for developers)
-The project requires JDK 21.0.
+The project requires JDK 21.0.3
 and mvn version - 3.9.6.
 1. Build and install:
     ```
@@ -30,7 +30,7 @@ To deploy service on Kubernetes cluster using Dockers refer to [Sandbox Deployme
 Automated functional tests available in [Functional Tests repo](https://github.com/mosip/mosip-functional-tests).
 
 ## APIs
-API documentation is available [here](https://mosip.github.io/documentation/).
+API documentation is available [here](https://mosip.github.io/documentation/1.2.0/kernel-auditmanager-service.html).
 
 ## License
 This project is licensed under the terms of [Mozilla Public License 2.0](LICENSE)
