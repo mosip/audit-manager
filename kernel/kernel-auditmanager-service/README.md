@@ -17,6 +17,17 @@ and mvn version - 3.9.6.
     $ docker build -f Dockerfile
     ```
 
+## Configuration files
+Kernel Audit Manger Service uses the following configuration files that are accessible in this [repository](https://github.com/mosip/mosip-config/tree/master).
+```
+application-default.properties
+kernel-default.properties
+```
+
+## Configuration
+[Configuration-Application](https://github.com/mosip/mosip-config/blob/master/application-default.properties) and
+[Configuration-Kernel](https://github.com/mosip/mosip-config/blob/master/kernel-default.properties) defined here.
+
 ## Deploy
 To deploy service on Kubernetes cluster using Dockers refer to [Sandbox Deployment](https://docs.mosip.io/1.2.0/deploymentnew/v3-installation).
 
