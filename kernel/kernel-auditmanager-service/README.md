@@ -19,6 +19,7 @@ and mvn version - 3.9.6.
 
 ## Configuration files
 Kernel Audit Manger Service uses the following configuration files that are accessible in this [repository](https://github.com/mosip/mosip-config/tree/master).
+Please refer to the required released tagged version for configuration.
 ```
 application-default.properties
 kernel-default.properties
