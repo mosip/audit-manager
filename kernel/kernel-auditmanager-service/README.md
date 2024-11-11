@@ -31,6 +31,3 @@ Automated functional tests available in [Functional Tests repo](https://github.c
 
 ## APIs
 API documentation is available [here](https://mosip.github.io/documentation/1.2.0/kernel-auditmanager-service.html).
-
-## Default context-path and port
-Refer [`bootstrap.properties`](src/main/resources/bootstrap.properties)
