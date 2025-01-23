@@ -1,6 +1,8 @@
 package io.mosip.kernel.auditmanager.util;
 
+import io.mosip.kernel.auditmanager.constant.AuditErrorCodes;
 import io.mosip.kernel.auditmanager.request.AuditRequestDto;
+import io.mosip.kernel.core.auditmanager.exception.AuditManagerException;
 
 /**
  * Utility class for Audit Manager
@@ -26,7 +28,7 @@ public class AuditUtils {
 	 */
 	public static void validateAuditRequestDto(AuditRequestDto auditRequestDto) {
 		if (auditRequestDto == null) {
-			throw new IllegalArgumentException("Audit request cannot be null");
+			throw new AuditManagerException(AuditErrorCodes.HANDLEREXCEPTION.getErrorCode(),"Audit request cannot be null");
 		}
 
 		StringBuilder errorMessages = new StringBuilder();
@@ -83,7 +85,7 @@ public class AuditUtils {
 
 		// Throw exception if there are validation errors
 		if (errorMessages.length() > 0) {
-			throw new IllegalArgumentException(errorMessages.toString().trim());
+			throw new AuditManagerException(AuditErrorCodes.HANDLEREXCEPTION.getErrorCode(),errorMessages.toString().trim());
 		}
 	}
 }
