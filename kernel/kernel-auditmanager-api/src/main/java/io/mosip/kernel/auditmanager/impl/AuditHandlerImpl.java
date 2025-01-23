@@ -1,6 +1,5 @@
 package io.mosip.kernel.auditmanager.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +27,6 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 	@Autowired
 	private AuditRepository auditRepository;
 
-	/**
-	 * Field for {@link ModelMapper} for performing object mapping
-	 */
-	@Autowired
-	private ModelMapper modelMapper;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,9 +39,30 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 
 		AuditUtils.validateAuditRequest(auditRequest);
 
-		Audit event = modelMapper.map(auditRequest, Audit.class);
+		Audit event = getAuditEntity(auditRequest);
 		auditRepository.save(event);
 		return true;
+	}
+
+	public Audit getAuditEntity(AuditRequestDto auditRequestDto) {
+		Audit audit = new Audit();
+		audit.setEventId(auditRequestDto.getEventId());
+		audit.setEventName(auditRequestDto.getEventName());
+		audit.setEventType(auditRequestDto.getEventType());
+		audit.setActionTimeStamp(auditRequestDto.getActionTimeStamp());
+		audit.setHostName(auditRequestDto.getHostName());
+		audit.setHostIp(auditRequestDto.getHostIp());
+		audit.setApplicationId(auditRequestDto.getApplicationId());
+		audit.setApplicationName(auditRequestDto.getApplicationName());
+		audit.setSessionUserId(auditRequestDto.getSessionUserId());
+		audit.setSessionUserName(auditRequestDto.getSessionUserName());
+		audit.setId(auditRequestDto.getId());
+		audit.setIdType(auditRequestDto.getIdType());
+		audit.setCreatedBy(auditRequestDto.getCreatedBy());
+		audit.setModuleName(auditRequestDto.getModuleName());
+		audit.setModuleId(auditRequestDto.getModuleId());
+		audit.setDescription(auditRequestDto.getDescription());
+		return audit;
 	}
 
 }
