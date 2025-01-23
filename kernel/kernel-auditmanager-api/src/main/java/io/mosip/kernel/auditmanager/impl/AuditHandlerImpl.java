@@ -36,9 +36,7 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 	 */
 	@Override
 	public boolean addAudit(AuditRequestDto auditRequest) {
-
-		AuditUtils.validateAuditRequest(auditRequest);
-
+		AuditUtils.validateAuditRequestDto(auditRequest);
 		Audit event = getAuditEntity(auditRequest);
 		auditRepository.save(event);
 		return true;
