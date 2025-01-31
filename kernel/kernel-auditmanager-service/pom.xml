@@ -20,7 +20,7 @@
 		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
 
 		<!-- spring -->
-		<kernel.core.version>1.3.0-beta.1</kernel.core.version>
+		<kernel.core.version>1.3.0-SNAPSHOT</kernel.core.version>
 		<kernel.applicant-type.version>1.3.0-beta.1</kernel.applicant-type.version>
 		<kernel.audit-api.version>1.3.0-SNAPSHOT</kernel.audit-api.version>
 		<kernel.logger.version>1.3.0-beta.1</kernel.logger.version>
