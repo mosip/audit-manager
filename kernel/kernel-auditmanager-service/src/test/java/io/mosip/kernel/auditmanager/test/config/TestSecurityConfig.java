@@ -36,7 +36,6 @@ public class TestSecurityConfig {
 
 	@Bean
 	protected SecurityFilterChain configure(final HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf(csrf -> csrf.disable());
 		httpSecurity.authorizeHttpRequests(http -> http.anyRequest().permitAll());
 		return httpSecurity.build();
 	}
