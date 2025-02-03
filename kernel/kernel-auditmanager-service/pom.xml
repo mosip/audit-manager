@@ -30,7 +30,7 @@
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java"</sonar.coverage.exclusions>
 		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
 		<maven.deploy.plugin.version>3.1.1</maven.deploy.plugin.version>
-		<nexus.staging.maven.plugin.version>1.6.14</nexus.staging.maven.plugin.version>
+		<nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
