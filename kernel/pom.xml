@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>audit-manager</name>
 	<description>Project of MOSIP audit manager</description>
-	<url>https://github.com/mosip/commons</url>
+	<url>https://github.com/mosip/audit-manager</url>
 <properties>		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -269,9 +269,9 @@
           </plugins>
         </build>
 		<scm>
-                <connection>scm:git:git://github.com/mosip/commons.git</connection>
-                <developerConnection>scm:git:ssh://github.com:mosip/commons.git</developerConnection>
-                <url>https://github.com/mosip/commons</url>
+                <connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
+                <developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
+                <url>https://github.com/mosip/audit-manager</url>
                 <tag>HEAD</tag>
         </scm>
 		<licenses>
@@ -285,7 +285,7 @@
                   <name>Mosip</name>
                   <email>mosip.emailnotifier@gmail.com</email>
                   <organization>io.mosip</organization>
-                  <organizationUrl>https://github.com/mosip/commons</organizationUrl>
+                  <organizationUrl>https://github.com/mosip/audit-manager</organizationUrl>
                 </developer>
         </developers>
 	<profiles>
