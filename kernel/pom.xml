@@ -280,14 +280,14 @@
                 <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
           </license>
         </licenses>
-		<developers>
-                <developer>
-                  <name>Mosip</name>
-                  <email>mosip.emailnotifier@gmail.com</email>
-                  <organization>io.mosip</organization>
-                  <organizationUrl>https://github.com/mosip/audit-manager</organizationUrl>
-                </developer>
-        </developers>
+	<developers>
+		<developer>
+			<name>mosip</name>
+			<email>mosip.emailnotifier@gmail.com</email>
+			<organization>MOSIP</organization>
+			<organizationUrl>https://www.mosip.io</organizationUrl>
+		</developer>
+	</developers>
 	<profiles>
 		<profile>
 			<id>sonar</id>
