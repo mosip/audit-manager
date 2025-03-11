@@ -1,5 +1,5 @@
-[![Maven Package upon a push](https://github.com/mosip/audit-manager/actions/workflows/push_trigger.yml/badge.svg?branch=develop)](https://github.com/mosip/audit-manager/actions/workflows/push_trigger.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_audit-manager&metric=alert_status)](https://sonarcloud.io/dashboard?branch=develop&id=mosip_audit-manager)
+[![Maven Package upon a push](https://github.com/mosip/audit-manager/actions/workflows/push-trigger.yml/badge.svg?branch=release-1.3.x)](https://github.com/mosip/audit-manager/actions/workflows/push-trigger.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_audit-manager&metric=alert_status)](https://sonarcloud.io/dashboard?branch=release-1.3.x&id=mosip_audit-manager)
 
 # Audit Manager
 
