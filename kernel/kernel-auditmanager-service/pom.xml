@@ -5,7 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 
 	<artifactId>kernel-auditmanager-service</artifactId>
-	<version>1.3.0-beta.1</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -22,9 +22,9 @@
 		<!-- spring -->
 		<kernel.core.version>1.3.0-beta.2</kernel.core.version>
 		<kernel.applicant-type.version>1.3.0-beta.2</kernel.applicant-type.version>
-		<kernel.audit-api.version>1.3.0-beta.1</kernel.audit-api.version>
+		<kernel.audit-api.version>1.3.0-SNAPSHOT</kernel.audit-api.version>
 		<kernel.logger.version>1.3.0-beta.2</kernel.logger.version>
-		<kernel.auth-adapter.version>1.3.0-beta.1</kernel.auth-adapter.version>
+		<kernel.auth-adapter.version>1.3.0-SNAPSHOT</kernel.auth-adapter.version>
 		<kernel-dataaccess-hibernate-version>1.3.0-beta.2</kernel-dataaccess-hibernate-version>
 
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java"</sonar.coverage.exclusions>
