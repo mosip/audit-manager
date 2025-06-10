@@ -57,114 +57,172 @@ components:
       type: object
       properties:
         eventId:
+          description: Unique indentifier for event
           maxLength: 64
           minLength: 1
           type: string
+          
         eventName:
+          description : Name of the event
           maxLength: 128
           minLength: 1
           type: string
+          
         eventType:
+          description: Type of the event 
           maxLength: 64
           minLength: 1
           type: string
+          
         actionTimeStamp:
+          description: Timestamp when the event occurred (in ISO date-time format)
           type: string
           format: date-time
+          
         hostName:
+          description: Name of the host machine
           maxLength: 128
           minLength: 1
           type: string
+          
         hostIp:
+          description: IP address of the host machine
           maxLength: 256
           minLength: 1
           type: string
+          
         applicationId:
+          description: Unique identifier of the application generating the audit event
           maxLength: 64
           minLength: 1
           type: string
+          
         applicationName:
+          description: Name of the application
           maxLength: 128
           minLength: 1
           type: string
+          
         sessionUserId:
+          description: Unique identifier of the user who initiated the session
           maxLength: 256
           minLength: 1
           type: string
+          
         sessionUserName:
+          description: Name of the user who initiated the session
           maxLength: 128
           minLength: 1
           type: string
+          
         id:
           maxLength: 64
           minLength: 0
           type: string
+          description: Identifier for the entity involved in the event
+          
         idType:
           maxLength: 64
           minLength: 0
           type: string
+          description: Type of id
+          
         createdBy:
+          description: Name or identifier of the user or service that created this audit record
           maxLength: 256
           minLength: 1
           type: string
+          
         moduleName:
+          description: Name of the application module
           maxLength: 128
           minLength: 0
           type: string
+          
         moduleId:
+          description: Unique identifier of the module
           maxLength: 64
           minLength: 0
           type: string
+          
         description:
+          description: Detailed description or remarks about the event
           maxLength: 2048
           minLength: 0
           type: string
+          
     RequestWrapperAuditRequestDto:
       required:
       - request
       type: object
       properties:
         id:
+          description: Unique identifier for the request message
           type: string
+          
         version:
+          description: Version number of the API contract or message format
           type: string
+          
         requesttime:
+          description: Date and time when the request was sent 
           type: string
           format: date-time
+          
         metadata:
+          description: Optional metadata associated with the request
           type: object
+          
         request:
           "$ref": "#/components/schemas/AuditRequestDto"
+          
     AuditResponseDto:
       type: object
       properties:
         status:
+          description: Indicates whether the audit operation was successful (true) or failed (false)
           type: boolean
+          
     ResponseWrapperAuditResponseDto:
       required:
       - response
       type: object
       properties:
         id:
+          description: Unique identifier for the response message
           type: string
+          
         version:
+          description: Version number of the API contract or message format
           type: string
+          
         responsetime:
+          description: Date and time when the response was sent 
           type: string
           format: date-time
+          
         metadata:
+          description: Optional metadata associated with the response
           type: object
+          
         response:
           "$ref": "#/components/schemas/AuditResponseDto"
+          
+          
         errors:
+          description: List of errors encountered during processing(if any)
           type: array
           items:
             "$ref": "#/components/schemas/ServiceError"
+            
     ServiceError:
       type: object
       properties:
         errorCode:
+          description: Application-defined error code representing the specific error condition
           type: string
+          
         message:
+          description: Human-readable message describing the error
           type: string
 
