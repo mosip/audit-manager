@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  */
 @RestController
-@Tag(name = "Audit manager controller", description = "Rest endpoints which consist of operations related to Audit Management")
+@Tag(name = "Audit Manager Controller", description = "Rest endpoints which consist of operations related to Audit Management")
 public class AuditManagerController {
 
 	@Value("${mosip.kernel.auditmanager.add-audit.api-id:mosip.kernel.auditmanager.addAudit}")
@@ -52,9 +52,9 @@ public class AuditManagerController {
 	 * @param requestDto {@link AuditRequestDto} having required fields for auditing
 	 * @return The {@link AuditResponseDto} having the status of audit
 	 */
-	@Operation(summary = "Persist a audit", description = "persist a audit", tags = { "auditmanager" })
+	@Operation(summary = "Persist a audit", description = "persist a audit", tags = { "Audit Manager Controller" })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Success or you may find errors in error array in response"),
+			@ApiResponse(responseCode = "200", description = "Success or you may find errors in error array in response", content = @Content(mediaType = "application/json",schema = @Schema(implementation = ResponseWrapper.class))),
 			@ApiResponse(responseCode = "401", description = "Unauthorized" ,content = @Content(schema = @Schema(hidden = true))),
 			@ApiResponse(responseCode = "403", description = "Forbidden" ,content = @Content(schema = @Schema(hidden = true))),
 			@ApiResponse(responseCode = "404", description = "Not Found" ,content = @Content(schema = @Schema(hidden = true)))})
