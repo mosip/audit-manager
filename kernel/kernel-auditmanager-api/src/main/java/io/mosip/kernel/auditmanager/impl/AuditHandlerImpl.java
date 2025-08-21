@@ -8,6 +8,7 @@ import io.mosip.kernel.auditmanager.repository.AuditRepository;
 import io.mosip.kernel.auditmanager.request.AuditRequestDto;
 import io.mosip.kernel.auditmanager.util.AuditUtils;
 import io.mosip.kernel.core.auditmanager.spi.AuditHandler;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of {@link AuditHandler} with function to write
@@ -35,6 +36,7 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 	 * core.audit.dto.AuditRequest)
 	 */
 	@Override
+	@Transactional
 	public boolean addAudit(AuditRequestDto auditRequest) {
 		AuditUtils.validateAuditRequestDto(auditRequest);
 		Audit event = getAuditEntity(auditRequest);
@@ -42,7 +44,7 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 		return true;
 	}
 
-	public Audit getAuditEntity(AuditRequestDto auditRequestDto) {
+	private Audit getAuditEntity(AuditRequestDto auditRequestDto) {
 		Audit audit = new Audit();
 		audit.setEventId(auditRequestDto.getEventId());
 		audit.setEventName(auditRequestDto.getEventName());
