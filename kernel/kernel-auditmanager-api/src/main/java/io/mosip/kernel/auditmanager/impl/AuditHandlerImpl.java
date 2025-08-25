@@ -45,16 +45,16 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 			return true;
 		} catch (IllegalArgumentException e) {
 			// Validation failure
-			System.out.println("Invalid audit request: " + auditRequest + " | Error: " + e.getMessage());
+			System.out.println("Invalid audit request: " + auditRequest.toString() + " | Error: " + e.getMessage());
 			return false;
 		} catch (org.springframework.dao.DataAccessException dae) {
 			// Database exceptions
-			System.err.println("Database error while saving audit eventId=" + auditRequest.getEventId()
+			System.err.println("Database error while saving audit eventId=" + auditRequest.toString()
 					+ " | Error: " + dae.getMessage());
 			return false;
 		} catch (Exception ex) {
 			// Any other unexpected error
-			System.err.println("Unexpected error in addAudit for eventId=" + auditRequest.getEventId()
+			System.err.println("Unexpected error in addAudit for eventId=" + auditRequest.toString()
 					+ " | Error: " + ex.getMessage());
 			return false;
 		}
