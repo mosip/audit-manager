@@ -1,6 +1,7 @@
 package io.mosip.kernel.auditmanager.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import io.mosip.kernel.auditmanager.dto.AuditResponseDto;
@@ -38,6 +39,12 @@ public class AuditManagerServiceImpl implements AuditManagerService {
 		auditHandler.addAudit(auditRequestDto);
 		auditResponseDto.setStatus(true);
 		return auditResponseDto;
+	}
+
+	@Override
+	@Async("auditExecutor")  // <-- use your ThreadPoolTaskExecutor bean
+	public void addAuditAsync(AuditRequestDto auditRequestDto) {
+		auditHandler.addAudit(auditRequestDto);
 	}
 
 }

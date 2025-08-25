@@ -25,4 +25,6 @@ public interface AuditManagerService {
 	 */
 	AuditResponseDto addAudit(AuditRequestDto auditRequestDto);
 
+	void addAuditAsync(AuditRequestDto auditRequestDto);        // new async fire-and-forget
+
 }
