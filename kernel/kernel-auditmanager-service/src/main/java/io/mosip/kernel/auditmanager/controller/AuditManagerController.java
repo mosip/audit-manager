@@ -63,8 +63,13 @@ public class AuditManagerController {
 	@ResponseFilter
 	@PostMapping(value = "/audits", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseWrapper<AuditResponseDto> addAudit(@RequestBody @Valid RequestWrapper<AuditRequestDto> requestDto) {
+		service.addAuditAsync(requestDto.getRequest());
+
+		AuditResponseDto auditResponseDto = new AuditResponseDto();
+		auditResponseDto.setStatus(true);
+
 		ResponseWrapper<AuditResponseDto> response = new ResponseWrapper<>();
-		response.setResponse(service.addAudit(requestDto.getRequest()));
+		response.setResponse(auditResponseDto);
 		response.setId(apiId);
 		response.setVersion(apiVersion);
 		response.setErrors(null);
