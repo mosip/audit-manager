@@ -2,8 +2,6 @@ package io.mosip.kernel.auditmanager.request;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -38,8 +36,7 @@ public class AuditRequestDto {
 	private String eventType;
 
 	@NotNull
-	@JsonDeserialize(using = StringToLocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeToStringSerializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	private LocalDateTime actionTimeStamp;
 
 	@NotNull
