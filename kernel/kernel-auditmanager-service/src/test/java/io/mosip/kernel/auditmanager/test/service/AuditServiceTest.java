@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
 
+import io.mosip.kernel.core.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AuditServiceTest {
 	public void auditServiceTest() {
 
 		AuditRequestDto auditRequestDto = new AuditRequestDto();
-		auditRequestDto.setActionTimeStamp(LocalDateTime.now());
+		auditRequestDto.setActionTimeStamp(DateUtils.getUTCCurrentDateTime());
 		auditRequestDto.setApplicationId("applicationId");
 		auditRequestDto.setApplicationName("applicationName");
 		auditRequestDto.setCreatedBy("createdBy");

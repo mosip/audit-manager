@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 
+import io.mosip.kernel.core.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -52,7 +53,7 @@ public class AuditControllerTest {
 	public void auditTest() throws Exception {
 
 		AuditRequestDto auditRequestDto = new AuditRequestDto();
-		auditRequestDto.setActionTimeStamp(LocalDateTime.now());
+		auditRequestDto.setActionTimeStamp(DateUtils.getUTCCurrentDateTime());
 		auditRequestDto.setApplicationId("applicationId");
 		auditRequestDto.setApplicationName("applicationName");
 		auditRequestDto.setCreatedBy("createdBy");
