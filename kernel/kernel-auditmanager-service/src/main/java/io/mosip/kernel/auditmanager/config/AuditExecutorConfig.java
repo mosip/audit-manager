@@ -3,6 +3,7 @@ package io.mosip.kernel.auditmanager.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,6 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * </ul>
  */
 @Configuration
+@EnableAsync(proxyTargetClass = true) // force CGLIB; avoids JDK-proxy gotchas
 public class AuditExecutorConfig {
     @Value("${audit.executor.core-pool-size:8}")
     private int corePoolSize;
