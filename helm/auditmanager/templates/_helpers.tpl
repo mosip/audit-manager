@@ -57,4 +57,15 @@ Return podAnnotations
 {{- end }}
 {{- end -}}
 
+{{/*
+Return the PVC name for audit logs
+*/}}
+{{- define "auditmanager.auditLogsPvcName" -}}
+{{- if .Values.auditLogsPersistence.existingClaim -}}
+    {{- printf "%s" (tpl .Values.auditLogsPersistence.existingClaim $) -}}
+{{- else -}}
+    {{- printf "%s-audit-logs" (include "common.names.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
 

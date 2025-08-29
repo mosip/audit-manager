@@ -70,6 +70,26 @@ spec:
             - name: foo
               mountPath: bar
         {{- end }}
+        {{- if and .Values.volumePermissions.enabled .Values.auditLogsPersistence.enabled }}
+        - name: audit-logs-permissions
+          image: {{ include "auditmanager.volumePermissions.image" . }}
+          imagePullPolicy: {{ .Values.volumePermissions.image.pullPolicy | quote }}
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p "/var/log/{{ .Values.containerSecurityContext.runAsUser }}/audit"
+              chown -R 1001:1001 "/var/log/{{ .Values.containerSecurityContext.runAsUser }}/audit"
+              chmod -R 755 "/var/log/{{ .Values.containerSecurityContext.runAsUser }}/audit"
+          securityContext:
+            runAsUser: 0
+          {{- if .Values.volumePermissions.resources }}
+          resources: {{- toYaml .Values.volumePermissions.resources | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: audit-logs
+              mountPath: "/var/log/{{ .Values.containerSecurityContext.runAsUser }}/audit"
+        {{- end }}
         {{- if .Values.enable_insecure }}
           {{- include "common.tplvalues.render" (dict "value" .Values.initContainers "context" $) | nindent 8 }}
         {{- end }}
@@ -136,6 +156,13 @@ spec:
             name: cacerts
             subPath: cacerts
           {{- end }}
+          {{- if .Values.auditLogsPersistence.enabled }}
+          - name: audit-logs
+            mountPath: "/var/log/{{ .Values.containerSecurityContext.runAsUser }}/audit"
+          {{- end }}
+          {{- if .Values.extraVolumeMounts }}
+          {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
+          {{- end }}
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
@@ -143,4 +170,12 @@ spec:
       {{- if .Values.enable_insecure }}
       - name: cacerts
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.auditLogsPersistence.enabled }}
+      - name: audit-logs
+        persistentVolumeClaim:
+          claimName: {{ include "auditmanager.auditLogsPvcName" . }}
+      {{- end }}
+      {{- if .Values.extraVolumes }}
+      {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 6 }}
       {{- end }}

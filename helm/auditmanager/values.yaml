@@ -141,7 +141,7 @@ additionalResources:
 ## Clamav container already runs as 'mosip' user, so we may not need to enable this
 containerSecurityContext:
   enabled: false
-  runAsUser: mosip
+  runAsUser: mosip  # This will be the source of truth, should match containerUser
   runAsNonRoot: true
 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
@@ -240,7 +240,11 @@ updateStrategy:
 ##   - name: FOO
 ##     value: "bar"
 ##
-extraEnvVars: []
+extraEnvVars:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
 
 ## ConfigMap with extra environment variables that used
 ##
@@ -337,6 +341,28 @@ persistence:
   existingClaim:
   # Dir where config and keys are written inside container
   mountDir:
+
+## Persistent storage for audit logs (including WAL files)
+auditLogsPersistence:
+  enabled: false
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack).
+  ##
+  storageClass: ""
+  ##
+  ## If you want to reuse an existing claim, you can pass the name of the PVC using
+  ## the existingClaim variable
+  existingClaim: ""
+  ## Access modes for the PVC
+  accessModes:
+    - ReadWriteOnce
+  ## Size of the persistent volume
+  size: 1Gi
+  ## Mount path for audit logs inside the container (dynamic based on containerSecurityContext.runAsUser)
+  mountPath: /var/log/mosip/audit
 
 ## Init containers parameters:
 ## volumePermissions: Change the owner and group of the persistent volume mountpoint to runAsUser:fsGroup values from the securityContext section.

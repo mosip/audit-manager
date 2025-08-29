@@ -28,6 +28,26 @@ To install the chart with the release name `auditmanager`.
 helm install my-release mosip/auditmanager
 ```
 
+### Custom Container User
+
+The chart supports dynamic container user configuration. By default, it uses `mosip` as the container user, but you can customize it:
+
+```console
+helm install my-release mosip/auditmanager \
+  --set containerSecurityContext.runAsUser=myuser \
+  --set auditLogsPersistence.enabled=true
+```
+
+This will:
+- Create audit logs directory at `/var/log/myuser/audit` inside the container
+- Set the WAL file path to `/var/log/myuser/audit/audit-wal-{POD_NAME}.log`
+- Configure persistent storage for audit logs
+
+**Note**: When using a custom container user, ensure your Docker image is built with the same user:
+```bash
+docker build --build-arg container_user=myuser -t your-image .
+```
+
 > **Tip**: List all releases using `helm list`
 
 ## Uninstalling the Chart
