@@ -65,7 +65,9 @@ RUN apk -q update \
 && addgroup -g ${container_user_gid} ${container_user_group} \
 && adduser -s /bin/sh -u ${container_user_uid} -G ${container_user_group} -h /home/${container_user} --disabled-password ${container_user} \
 && mkdir -p ${loader_path_env} \
-&& chown -R ${container_user}:${container_user} /home/${container_user}
+&& mkdir -p /var/log/${container_user}/audit \
+&& chown -R ${container_user}:${container_user} /home/${container_user} \
+&& chown -R ${container_user}:${container_user} /var/log/${container_user}/audit
 
 #copy the jar to container
 COPY ./target/kernel-auditmanager-service-*.jar /home/${container_user}/kernel-auditmanager-service.jar
