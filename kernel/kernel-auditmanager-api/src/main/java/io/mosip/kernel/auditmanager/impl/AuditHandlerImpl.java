@@ -1,6 +1,8 @@
 package io.mosip.kernel.auditmanager.impl;
 
+import io.mosip.kernel.core.logger.spi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import io.mosip.kernel.auditmanager.entity.Audit;
@@ -8,6 +10,7 @@ import io.mosip.kernel.auditmanager.repository.AuditRepository;
 import io.mosip.kernel.auditmanager.request.AuditRequestDto;
 import io.mosip.kernel.auditmanager.util.AuditUtils;
 import io.mosip.kernel.core.auditmanager.spi.AuditHandler;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of {@link AuditHandler} with function to write
@@ -35,12 +38,18 @@ public class AuditHandlerImpl implements AuditHandler<AuditRequestDto> {
 	 * core.audit.dto.AuditRequest)
 	 */
 	@Override
+	@Transactional
 	public boolean addAudit(AuditRequestDto auditRequest) {
-		AuditUtils.validateAuditRequestDto(auditRequest);
-		Audit event = getAuditEntity(auditRequest);
-		auditRepository.save(event);
-		return true;
+		try {
+			AuditUtils.validateAuditRequestDto(auditRequest);
+			Audit event = getAuditEntity(auditRequest);
+			auditRepository.save(event);
+			return true;
+		} catch (DataAccessException ex) {
+			return false;
+		}
 	}
+
 
 	public Audit getAuditEntity(AuditRequestDto auditRequestDto) {
 		Audit audit = new Audit();
