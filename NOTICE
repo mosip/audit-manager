@@ -1,0 +1,63 @@
+THIRD-PARTY NOTICES
+
+Copyright © MOSIP.
+All rights reserved.
+
+This project includes third-party components distributed under licenses
+that require attribution. The following sections list those components
+and their respective licenses.
+
+===========================
+ Apache License 2.0
+===========================
+• Spring Boot & Spring Security
+  (Starter Security, Starter Validation, Starter Data JPA, Starter Web,
+   Configuration Processor, Security Test, Spring Boot Maven Plugin)
+
+• SpringDoc OpenAPI
+  (SpringDoc OpenAPI Maven Plugin, SpringDoc OpenAPI Starter WebMVC UI)
+
+• JSON Simple (com.googlecode.json-simple)
+
+• Central Publishing Maven Plugin
+
+• Git Commit ID Maven Plugin
+
+• Apache Maven Plugins:
+  - maven-surefire-plugin
+  - maven-gpg-plugin
+  - maven-javadoc-plugin
+  - maven-source-plugin
+  - maven-jar-plugin
+  - maven-war-plugin
+  - maven-compiler-plugin
+
+• ModelMapper
+
+• Log4j API
+
+• Jackson Datatype JSR310
+
+===========================
+ Mozilla Public License 2.0
+===========================
+• MOSIP Kernel Libraries
+  (kernel-bom, kernel-core, kernel-logger-logback,
+   kernel-auth-adapter, kernel-auditmanager-api)
+
+====================================
+ PostgreSQL License (BSD-style)
+====================================
+• PostgreSQL JDBC Driver
+
+===========================
+ Eclipse Public License
+===========================
+• H2 Database Engine (EPL 1.0)
+
+• Jakarta Servlet API (EPL 2.0)
+
+------------------------------------------------------------
+Full license texts for all components are available in the
+`license/` directory of this repository.
+------------------------------------------------------------
