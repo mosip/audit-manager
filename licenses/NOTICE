@@ -1,0 +1,124 @@
+================================================================================
+COPYRIGHT NOTICES
+================================================================================
+
+This file contains the copyright notices and license information for all
+third-party packages used in this project. Each package's copyright holder,
+year range, and license terms are listed below.
+
+================================================================================
+1. COPYLEFT LICENSES (GNU LGPL-3.0)
+================================================================================
+
+Git Commit ID Maven Plugin (pl.project13.maven:git-commit-id-plugin)
+Version: 3.0.1
+Copyright (C) 2013-present Konrad Malawski (ktoso)
+License: GNU Lesser General Public License v3.0 (LGPL-3.0-only)
+Full License: https://www.gnu.org/licenses/lgpl-3.0.html
+
+Sonar Maven Plugin (org.sonarsource.scanner.maven:sonar-maven-plugin)
+Version: 3.7.0.1746
+Copyright (C) 2011-present SonarSource SA
+License: GNU Lesser General Public License v3.0 (LGPL-3.0-only)
+Full License: https://www.gnu.org/licenses/lgpl-3.0.html
+
+================================================================================
+2. ECLIPSE PUBLIC LICENSE (EPL)
+================================================================================
+
+JUnit 4 (junit:junit)
+Copyright (c) 2002-2023 JUnit Contributors. All rights reserved.
+License: Eclipse Public License 1.0 (EPL-1.0)
+Full License: http://www.eclipse.org/legal/epl-v10.html
+
+JaCoCo Maven Plugin (org.jacoco:jacoco-maven-plugin)
+Version: 0.8.5, 0.8.11
+Copyright (c) 2009, 2023 Mountainminds GmbH & Co. KG and Contributors
+License: Eclipse Public License 2.0 (EPL-2.0)
+Full License: https://www.eclipse.org/legal/epl-2.0/
+
+Jakarta Servlet API (jakarta.servlet:jakarta.servlet-api)
+Copyright (c) 2017-present Eclipse Foundation and Contributors
+License: Eclipse Public License 2.0 (EPL-2.0)
+Full License: https://www.eclipse.org/legal/epl-2.0/
+
+================================================================================
+3. APACHE LICENSE 2.0
+================================================================================
+
+Spring Boot & Spring Framework
+Copyright (c) 2002-2024 VMware, Inc. (formerly Pivotal)
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+Apache Maven Plugins (multiple plugins)
+Copyright 2001-2023 The Apache Software Foundation
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+Jackson (com.fasterxml.jackson.datatype:jackson-datatype-jsr310)
+Copyright (c) 2007-2022 FasterXML. All rights reserved.
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+ModelMapper (org.modelmapper:modelmapper)
+Copyright 2011 the original author or authors
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+SpringDoc OpenAPI
+Copyright 2019-2023 the original author or authors
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+Central Publishing Maven Plugin
+Copyright (c) 2022-present Sonatype, Inc.
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+Log4j API (org.apache.logging.log4j:log4j-api)
+Copyright 2012-present The Apache Software Foundation
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+JSON Simple (com.googlecode.json-simple:json-simple)
+Copyright 2006-2012 Yidong Fang
+License: Apache License 2.0
+Full License: http://www.apache.org/licenses/LICENSE-2.0
+
+================================================================================
+4. BSD LICENSE
+================================================================================
+
+PostgreSQL JDBC Driver (org.postgresql:postgresql)
+Copyright (c) 1997-present, PostgreSQL Global Development Group
+All rights reserved.
+License: BSD 2-Clause License
+Full License: https://jdbc.postgresql.org/about/license.html
+
+================================================================================
+5. MIT LICENSE
+================================================================================
+
+SLF4J API (org.slf4j:slf4j-api)
+Copyright (c) 2004-2025 QOS.ch. All rights reserved.
+License: MIT License
+Full License: https://www.slf4j.org/license.html
+
+================================================================================
+6. MOZILLA/ECLIPSE DUAL LICENSE
+================================================================================
+
+H2 Database Engine (com.h2database:h2)
+Copyright (c) 2004-present Thomas Mueller and Contributors
+License: Mozilla Public License 2.0 (MPL-2.0) OR Eclipse Public License 1.0 (EPL-1.0)
+Full License: https://h2database.com/html/license.html
+
+MOSIP Kernel (io.mosip.kernel:*)
+Copyright (c) 2018-present MOSIP Contributors
+License: Mozilla Public License 2.0 (MPL-2.0)
+Full License: https://mozilla.org/MPL/2.0/
+
+================================================================================
+END OF COPYRIGHT NOTICES
+================================================================================
