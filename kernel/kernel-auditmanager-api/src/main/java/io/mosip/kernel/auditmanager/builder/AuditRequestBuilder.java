@@ -2,6 +2,8 @@ package io.mosip.kernel.auditmanager.builder;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import io.mosip.kernel.auditmanager.request.AuditRequestDto;
@@ -9,12 +11,13 @@ import io.mosip.kernel.auditmanager.request.AuditRequestDto;
 /**
  * The Audit request builder class is used to create new {@link AuditRequestDto}
  * with all required fields
- * 
+ *
  * @author Dharmesh Khandelwal
  * @since 1.0.0
  *
  */
 @Service
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class AuditRequestBuilder {
 
 	/**
