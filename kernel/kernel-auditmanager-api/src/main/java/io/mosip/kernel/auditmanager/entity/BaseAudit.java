@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.domain.Persistable;
 
 /**
  * Base class for {@link Audit} with {@link #uuid} and {@link #createdAt}
@@ -19,7 +20,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @MappedSuperclass
-public class BaseAudit {
+public class BaseAudit implements Persistable<String> {
 
 	/**
 	 * Field for immutable universally unique identifier (UUID)
@@ -37,6 +38,16 @@ public class BaseAudit {
 	public BaseAudit() {
 		uuid = UUID.randomUUID().toString();
 		createdAt = LocalDateTime.now();
+	}
+
+	@Override
+	public String getId() {
+		return uuid;
+	}
+
+	@Override
+	public boolean isNew() {
+		return true;
 	}
 
 }
