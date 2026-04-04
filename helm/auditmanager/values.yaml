@@ -124,8 +124,8 @@ additionalResources:
   javaOpts: >-
     -XX:+UseZGC -XX:+ZGenerational -XX:+ZProactive
     -XX:ZCollectionInterval=3 -XX:+ZUncommit -XX:ZUncommitDelay=60
-    -XX:ConcGCThreads=2 -Xms3200m -Xmx3200m
-    -XX:SoftMaxHeapSize=2500m -XX:+AlwaysPreTouch
+    -XX:ConcGCThreads=2 -Xms3250m -Xmx3250m
+    -XX:SoftMaxHeapSize=2950m -XX:+AlwaysPreTouch
     -XX:ActiveProcessorCount=2 -XX:+UseContainerSupport
     -XX:MaxMetaspaceSize=400m -XX:MetaspaceSize=100m
     -XX:ReservedCodeCacheSize=150m -XX:InitialCodeCacheSize=37m
