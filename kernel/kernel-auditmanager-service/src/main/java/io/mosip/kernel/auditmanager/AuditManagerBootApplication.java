@@ -2,7 +2,6 @@ package io.mosip.kernel.auditmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Audit manager application
@@ -13,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication(scanBasePackages = { "io.mosip.kernel.auditmanager.*","${mosip.auth.adapter.impl.basepackage}"
 		,"io.mosip.kernel.core.logger.config"})
-@EnableScheduling
 public class AuditManagerBootApplication {
 
 	/**
