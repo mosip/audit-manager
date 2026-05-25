@@ -1,1 +1,1 @@
-drop role if exists audituser;
+drop role if exists :dbuname;
