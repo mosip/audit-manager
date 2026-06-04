@@ -7,7 +7,7 @@
 	<groupId>io.mosip.kernel</groupId>
 
 	<artifactId>kernel-auditmanager-api</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
      <properties>		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -22,7 +22,7 @@
 		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
 		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
 
-     	<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
+     	<kernel.core.version>1.4.0-SNAPSHOT</kernel.core.version>
      	
 	 	<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java
@@ -35,7 +35,7 @@
 			<dependency>
 				<groupId>io.mosip.kernel</groupId>
 				<artifactId>kernel-bom</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
+				<version>1.4.0-SNAPSHOT</version>
 				<type>pom</type>
 			    <scope>import</scope>
 			</dependency>
@@ -114,7 +114,6 @@
 					<autoPublish>false</autoPublish>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -226,9 +225,9 @@
           </plugins>
         </build>
 		<scm>
-                <connection>scm:git:git://github.com/mosip/commons.git</connection>
-                <developerConnection>scm:git:ssh://github.com:mosip/commons.git</developerConnection>
-                <url>https://github.com/mosip/commons</url>
+                <connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
+                <developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
+                <url>https://github.com/mosip/audit-manager</url>
                 <tag>HEAD</tag>
         </scm>
 		<licenses>
@@ -239,13 +238,13 @@
         </licenses>
 		<developers>
                 <developer>
-                  <name>Mosip</name>
+			<name>mosip</name>
                   <email>mosip.emailnotifier@gmail.com</email>
-                  <organization>io.mosip</organization>
-                  <organizationUrl>https://github.com/mosip/commons</organizationUrl>
+			<organization>MOSIP</organization>
+			<organizationUrl>https://www.mosip.io</organizationUrl>
                 </developer>
         </developers>
 		<name>Audit manager api</name>
 		<description>Audit manager api for Mosip</description>
-        <url>https://github.com/mosip/commons</url>
+        <url>https://github.com/mosip/audit-manager</url>
 	</project>
