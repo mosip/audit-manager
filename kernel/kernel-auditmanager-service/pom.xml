@@ -5,7 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 
 	<artifactId>kernel-auditmanager-service</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.4.0-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -21,11 +21,12 @@
         <central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
 		
 		<!-- spring -->
-		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
-		<kernel.applicant-type.version>1.2.1-SNAPSHOT</kernel.applicant-type.version>
-		<kernel.audit-api.version>1.2.1-SNAPSHOT</kernel.audit-api.version>
-		<kernel.logger.version>1.2.1-SNAPSHOT</kernel.logger.version>
-		<kernel-dataaccess-hibernate-version>1.2.1-SNAPSHOT</kernel-dataaccess-hibernate-version>
+		<kernel.core.version>1.4.0-SNAPSHOT</kernel.core.version>
+		<kernel.applicant-type.version>1.4.0-SNAPSHOT</kernel.applicant-type.version>
+		<kernel.audit-api.version>1.4.0-SNAPSHOT</kernel.audit-api.version>
+		<kernel.logger.version>1.4.0-SNAPSHOT</kernel.logger.version>
+		<kernel.auth-adapter.version>1.4.0-SNAPSHOT</kernel.auth-adapter.version>
+		<kernel-dataaccess-hibernate-version>1.4.0-SNAPSHOT</kernel-dataaccess-hibernate-version>
 
 		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java"</sonar.coverage.exclusions>
 		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
@@ -35,7 +36,7 @@
 			<dependency>
 				<groupId>io.mosip.kernel</groupId>
 				<artifactId>kernel-bom</artifactId>
-				<version>1.2.1-SNAPSHOT</version>
+				<version>${kernel.core.version}</version>
 				<type>pom</type>
 			    <scope>import</scope>
 			</dependency>
@@ -103,7 +104,7 @@
 		<dependency>
 		    <groupId>org.springdoc</groupId>
 		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		    <version>2.6.0</version>
+		    <version>2.5.0</version>
 		</dependency>
 	</dependencies>
 	
@@ -117,6 +118,17 @@
 			<url>https://central.sonatype.com/api/v1/publisher</url>
 		</repository>
 	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<name>MavenCentralRepository</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
         <build>
 			<plugins>
 			<plugin>
@@ -272,9 +284,9 @@
           </plugins>
         </build>
 		<scm>
-                <connection>scm:git:git://github.com/mosip/commons.git</connection>
-                <developerConnection>scm:git:ssh://github.com:mosip/commons.git</developerConnection>
-                <url>https://github.com/mosip/commons</url>
+                <connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
+                <developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
+                <url>https://github.com/mosip/audit-manager</url>
                 <tag>HEAD</tag>
         </scm>
 		<licenses>
@@ -285,15 +297,15 @@
         </licenses>
 		<developers>
                 <developer>
-                  <name>Mosip</name>
+			<name>mosip</name>
                   <email>mosip.emailnotifier@gmail.com</email>
-                  <organization>io.mosip</organization>
-                  <organizationUrl>https://github.com/mosip/commons</organizationUrl>
+			<organization>MOSIP</organization>
+			<organizationUrl>https://www.mosip.io</organizationUrl>
                 </developer>
         </developers>
 		<name>Auditmanager service</name>
 		<description>Independant Audit manager service </description>
-        <url>https://github.com/mosip/commons</url>
+        <url>https://github.com/mosip/audit-manager</url>
 	<profiles>
 		<profile>
 			<id>openapi-doc-generate-profile</id>
@@ -301,7 +313,7 @@
 				<dependency>
 					<groupId>io.mosip.kernel</groupId>
 					<artifactId>kernel-auth-adapter</artifactId>
-					<version>1.2.1-SNAPSHOT</version>
+					<version>${kernel.auth-adapter.version}</version>
 				</dependency>
 			</dependencies>
 			<build>

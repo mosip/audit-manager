@@ -73,13 +73,20 @@ COPY ./target/kernel-auditmanager-service-*.jar /home/${container_user}/kernel-a
 # set working directory for the user
 WORKDIR /home/${container_user}
 
+COPY configure_start.sh ${work_dir}/configure_start.sh
+
+# change permissions of file inside working dir
+RUN sed -i 's/\r$//' ${work_dir}/configure_start.sh \
+    && chmod +x ${work_dir}/configure_start.sh \
+    && chown -R ${container_user}:${container_user} ${work_dir}
+
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
 
 # can expose required port
 EXPOSE 8081
 
+ENTRYPOINT ["sh", "configure_start.sh"]
+
 # the command to run when the container starts
-CMD  wget -q --show-progress "${iam_adapter_url_env}" -O "${loader_path_env}"/kernel-auth-adapter.jar; \
-    java -XX:+ExplicitGCInvokesConcurrent -XX:+UseZGC -XX:+ZGenerational -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:+UseCompressedOops \
-	 -Dloader.path="${loader_path_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -jar kernel-auditmanager-service.jar ; \
+CMD  java -Dloader.path="${loader_path_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -jar kernel-auditmanager-service.jar ; \
