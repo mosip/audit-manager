@@ -1,4 +1,4 @@
-\c mosip_audit
+\c :mosipdbname
 
 REASSIGN OWNED BY postgres TO sysadmin;
 
