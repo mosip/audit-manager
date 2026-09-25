@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  *
  * <p>
  * Security is provided by {@code kernel-auth-adapter} (Bearer tokens) on the
- * application classpath (Maven 1.4.1-SNAPSHOT in the Boot fat JAR). Unused
+ * application classpath (Maven dependency in the Boot fat JAR). Unused
  * kernel-core generators/validators are excluded.
  * </p>
  *

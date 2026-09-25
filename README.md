@@ -170,7 +170,7 @@ docker build -t kernel-auditmanager-service .
 
 Helm: [`helm/auditmanager/`](helm/auditmanager/). Install helper: [`deploy/install.sh`](deploy/).
 
-Runtime env (container): `active_profile_env`, `spring_config_label_env`, `spring_config_url_env`, `loader_path_env` (optional extras). `kernel-auth-adapter` **1.4.1-SNAPSHOT** is bundled in the Boot fat JAR from Maven (no `configure_start.sh` / `iam_adapter_url_env` wget).
+Runtime env (container): `active_profile_env`, `spring_config_label_env`, `spring_config_url_env`, `loader_path_env` (optional extras). `kernel-auth-adapter` is bundled in the Boot fat JAR from Maven (no `configure_start.sh` / `iam_adapter_url_env` wget).
 
 ---
 

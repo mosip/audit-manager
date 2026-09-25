@@ -29,7 +29,7 @@ ENV active_profile_env=${active_profile} \
 
 WORKDIR ${work_dir}
 
-# Create user (no wget — kernel-auth-adapter 1.4.1-SNAPSHOT comes from the Maven fat JAR)
+# Create user (no wget — kernel-auth-adapter comes from the Maven fat JAR)
 RUN apk -q update \
     && apk add -q --no-cache bash \
     && addgroup -g ${container_user_gid} ${container_user_group} \

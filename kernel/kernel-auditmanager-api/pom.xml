@@ -18,7 +18,7 @@
 		AuditRequestDto / AuditRequestBuilder, AuditUtils validation, and AuditHandlerImpl
 		(persists validated events). Consume from other MOSIP services for in-process auditing,
 		or transitively via kernel-auditmanager-service. JDK 21, Spring Boot 4.1.1, no kernel-bom.
-		Depends on kernel-core 1.4.1-SNAPSHOT.
+		Depends on kernel-core.
 	</description>
 	<url>https://github.com/mosip/audit-manager</url>
 

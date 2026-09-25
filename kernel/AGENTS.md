@@ -27,7 +27,7 @@ POST /audits → Controller → ServiceImpl → AuditHandlerImpl
 rules
 ├─ siblings omit <version> (DM in parent)
 ├─ spring-boot-jackson2 · ban kernel-bom · ban kernel-logger-logback
-├─ security: auth-adapter in fat JAR (Maven 1.4.1-SNAPSHOT) · TestSecurityConfig permitAll (tests)
+├─ security: auth-adapter in fat JAR · TestSecurityConfig permitAll (tests)
 ├─ db: prod=PostgreSQL ddl-auto=none · local|test=H2 schema AUDIT
 └─ jacoco=100% excl constant/config/dto/entity/exception/repository/*BootApplication
 ```

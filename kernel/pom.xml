@@ -121,7 +121,7 @@
 				<version>${kernel.core.version}</version>
 			</dependency>
 			<!--
-				kernel-auth-adapter: Bearer-token validation (Maven 1.4.1-SNAPSHOT; bundled in service fat JAR).
+				kernel-auth-adapter: Bearer-token validation (Maven dependency; bundled in service fat JAR).
 				License: MPL-2.0.
 			-->
 			<dependency>
