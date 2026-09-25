@@ -11,6 +11,7 @@
 	</parent>
 
 	<artifactId>kernel-auditmanager-api</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<name>kernel-auditmanager-api</name>
 	<description>
 		Embeddable MOSIP audit library: JPA entity (audit.app_audit_log), AuditRepository,
