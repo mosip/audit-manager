@@ -1,92 +1,77 @@
 FROM eclipse-temurin:21-jre-alpine
 
-# can be passed during Docker build as build time environment for github branch to pickup configuration from.
-ARG spring_config_label
-
-# can be passed during Docker build as build time environment for spring profiles active 
-ARG active_profile
-
-# can be passed during Docker build as build time environment for config server URL 
-ARG spring_config_url
-
-# can be passed during Docker build as build time environment for glowroot
-ARG is_glowroot
-
-# can be passed during Docker build as build time environment for artifactory URL
-ARG artifactory_url
-
-ARG loader_path
-
-# can be passed during Docker build as build time environment for github branch to pickup configuration from.
-ARG container_user=mosip
-ARG container_user_group=mosip
-ARG container_user_uid=1001
-ARG container_user_gid=1001
-
-# can be passed during Docker build as build time environment for label related addition to docker.
+# Labels assigned at Docker build time
 ARG SOURCE
 ARG COMMIT_HASH
 ARG COMMIT_ID
 ARG BUILD_TIME
-
-# environment variable to pass active profile such as DEV, QA etc at docker runtime
-ENV active_profile_env=${active_profile}
-
-# environment variable to pass github branch to pickup configuration from, at docker runtime
-ENV spring_config_label_env=${spring_config_label}
-
-# environment variable to pass spring configuration url, at docker runtime
-ENV spring_config_url_env=${spring_config_url}
-
-# environment variable to pass glowroot, at docker runtime
-ENV is_glowroot_env=${is_glowroot}
-
-# environment variable to pass artifactory url, at docker runtime
-ENV artifactory_url_env=${artifactory_url}
-
-# environment variable to pass iam_adapter url, at docker runtime
-ENV iam_adapter_url_env=${iam_adapter_url}
-
-# environment variable to pass to set workdir.
-ENV work_dir=/home/${container_user}
-
-# environment variable to pass for setting loader path
-ENV loader_path_env=${work_dir}/additional_jars/
-
-# Labels can be added to the image for metadata purposes such as source, commit hash, commit ID, and build time.
 LABEL source=${SOURCE}
 LABEL commit_hash=${COMMIT_HASH}
 LABEL commit_id=${COMMIT_ID}
 LABEL build_time=${BUILD_TIME}
 
-## install packages, create user and change permissions of file inside working dir
+# Build-time defaults (overridable at runtime via *_env)
+ARG spring_config_label=master
+ARG active_profile=default
+ARG spring_config_url
+
+ARG container_user=mosip
+ARG container_user_group=mosip
+ARG container_user_uid=1001
+ARG container_user_gid=1001
+
+# Runtime env + workdir. loader.path kept for optional extra jars (auth-adapter is in the fat JAR from Maven).
+ENV active_profile_env=${active_profile} \
+    spring_config_label_env=${spring_config_label} \
+    spring_config_url_env=${spring_config_url} \
+    work_dir=/home/${container_user} \
+    loader_path_env=/home/${container_user}/additional_jars/
+
+WORKDIR ${work_dir}
+
+# Create user (no wget — kernel-auth-adapter comes from the Maven fat JAR)
 RUN apk -q update \
-&& apk add -q unzip wget \
-&& addgroup -g ${container_user_gid} ${container_user_group} \
-&& adduser -s /bin/sh -u ${container_user_uid} -G ${container_user_group} -h /home/${container_user} --disabled-password ${container_user} \
-&& mkdir -p ${loader_path_env} \
-&& chown -R ${container_user}:${container_user} /home/${container_user}
+    && apk add -q --no-cache bash \
+    && addgroup -g ${container_user_gid} ${container_user_group} \
+    && adduser -s /bin/sh -u ${container_user_uid} -G ${container_user_group} -h ${work_dir} --disabled-password ${container_user} \
+    && mkdir -p ${loader_path_env} \
+    && chown -R ${container_user}:${container_user} ${work_dir} \
+    && rm -rf /var/cache/apk/*
 
-#copy the jar to container
-COPY ./target/kernel-auditmanager-service-*.jar /home/${container_user}/kernel-auditmanager-service.jar
+# Copy built JARs (fat + optional attachments); destination must end with /
+COPY ./target/kernel-auditmanager-service-*.jar ${work_dir}/
 
-# set working directory for the user
-WORKDIR /home/${container_user}
+# Keep Boot fat JAR only; drop -sources / -javadoc / .original
+RUN set -eux; \
+    cd ${work_dir}; \
+    rm -f kernel-auditmanager-service-*-sources.jar \
+          kernel-auditmanager-service-*-javadoc.jar \
+          kernel-auditmanager-service-*.jar.original \
+          kernel-auditmanager-service.jar.original 2>/dev/null || true; \
+    fat=""; \
+    for f in kernel-auditmanager-service-*.jar; do \
+      [ -f "$f" ] || continue; \
+      case "$f" in \
+        *-sources.jar|*-javadoc.jar) rm -f "$f" ;; \
+        *) fat="$f" ;; \
+      esac; \
+    done; \
+    if [ -z "$fat" ] || [ ! -f "$fat" ]; then \
+      echo "error: Boot fat jar not found under ${work_dir}" >&2; \
+      ls -la "${work_dir}" >&2; \
+      exit 1; \
+    fi; \
+    mv -f "$fat" kernel-auditmanager-service.jar; \
+    chown -R ${container_user}:${container_user} ${work_dir}
 
-COPY configure_start.sh ${work_dir}/configure_start.sh
-
-# change permissions of file inside working dir
-RUN sed -i 's/\r$//' ${work_dir}/configure_start.sh \
-    && chmod +x ${work_dir}/configure_start.sh \
-    && chown -R ${container_user}:${container_user} ${work_dir}
-
-# select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
 
-# can expose required port
 EXPOSE 8081
 
-ENTRYPOINT ["sh", "configure_start.sh"]
-
-# the command to run when the container starts
-CMD  java -Dloader.path="${loader_path_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -jar kernel-auditmanager-service.jar ; \
+# JVM GC / heap: use run-local.* or Helm JDK_JAVA_OPTIONS. Shell form so ${*_env} expands at start.
+CMD java -Dfile.encoding=UTF-8 \
+    -Dloader.path="${loader_path_env}" \
+    -Dspring.cloud.config.label="${spring_config_label_env}" \
+    -Dspring.profiles.active="${active_profile_env}" \
+    -Dspring.cloud.config.uri="${spring_config_url_env}" \
+    -jar kernel-auditmanager-service.jar

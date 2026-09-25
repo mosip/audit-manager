@@ -17,7 +17,7 @@
 		Runnable MOSIP Audit Manager Spring Boot service. Exposes POST /v1/auditmanager/audits
 		(RequestWrapper&lt;AuditRequestDto&gt; → ResponseWrapper&lt;AuditResponseDto&gt;), validates via
 		kernel-auditmanager-api, persists to audit.app_audit_log (PostgreSQL / H2 local).
-		Auth via kernel-auth-adapter (loader.path). JDK 21, Boot 4.1.1, Cloud 2025.1.3,
+		Auth via kernel-auth-adapter (bundled in Boot fat JAR). JDK 21, Boot 4.1.1, Cloud 2025.1.3,
 		springdoc 3.1.1, Jackson 2 via spring-boot-jackson2.
 	</description>
 	<url>https://github.com/mosip/audit-manager</url>
@@ -55,8 +55,8 @@
 			<artifactId>kernel-auditmanager-api</artifactId>
 		</dependency>
 		<!--
-			kernel-auth-adapter: Token validation (Docker loader.path; openapi profile compile).
-			Exclude Boot starter to avoid conflicting autoconfig. License: MPL-2.0.
+			kernel-auth-adapter: Bearer-token validation (from Maven; in Boot fat JAR).
+			Excluded from Surefire only (stale jackson in tests). License: MPL-2.0.
 		-->
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
@@ -182,7 +182,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<!-- Boot 4 removed executable flag; ZIP layout supports java -jar + loader.path -->
+					<!-- Boot 4 removed executable flag; ZIP layout supports java -jar -->
 					<layout>ZIP</layout>
 				</configuration>
 				<executions>
