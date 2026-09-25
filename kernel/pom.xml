@@ -1,283 +1,460 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<version>1.4.0-SNAPSHOT</version>
+	<!-- Same parent pattern as bio-utils / commons: Boot parent only — no kernel-bom, no kernel-parent. -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.1.1</version>
+		<relativePath />
+	</parent>
+
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>audit-manager</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
 	<name>audit-manager</name>
-	<description>Project of MOSIP audit manager</description>
+	<description>
+		MOSIP Audit Manager parent reactor: centralised, tamper-evident audit trail for the identity platform.
+		Modules: kernel-auditmanager-api (embeddable JPA/handler library) and kernel-auditmanager-service
+		(runnable Spring Boot service, POST /v1/auditmanager/audits → audit.app_audit_log).
+		JDK 21, Spring Boot 4.1.1, Spring Cloud 2025.1.3.
+	</description>
 	<url>https://github.com/mosip/audit-manager</url>
-<properties>		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- maven -->
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
-		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
-		<maven.jacoco.version>0.8.5</maven.jacoco.version>
-		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
-		<maven.javadoc.version>3.2.0</maven.javadoc.version>
-		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
-	    <central.publishing.maven.plugin.version>0.11.0</central.publishing.maven.plugin.version>
-
-		<sonar.coverage.exclusions>**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/verticle/**,**/spi/**,"**/proxy/**"</sonar.coverage.exclusions>
-		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
-	</properties>
 
 	<modules>
 		<module>kernel-auditmanager-api</module>
 		<module>kernel-auditmanager-service</module>
 	</modules>
-	
-    <repositories>
-       <repository>
+
+	<properties>
+		<!-- ── Java ─────────────────────────────────────────────────────────── -->
+		<java.version>21</java.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Empty default required for Surefire late replacement @{argLine} (JaCoCo agent). -->
+		<argLine />
+		<skipTests>false</skipTests>
+
+		<!-- ── Spring (Boot parent is 4.1.1; Cloud + docs pinned here) ─────── -->
+		<spring-cloud.version>2025.1.3</spring-cloud.version>
+		<springdoc.openapi.version>3.1.1</springdoc.openapi.version>
+		<springdoc.openapi.maven.plugin.version>1.5</springdoc.openapi.maven.plugin.version>
+
+		<!-- ── Maven plugins & build tooling (Boot 4.1.1 aligned; latest non-beta) ─ -->
+		<maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
+		<maven.jar.plugin.version>3.5.1</maven.jar.plugin.version>
+		<maven.war.plugin.version>3.5.1</maven.war.plugin.version>
+		<maven.surefire.plugin.version>3.6.0</maven.surefire.plugin.version>
+		<maven.jacoco.version>0.8.15</maven.jacoco.version>
+		<maven.sonar.plugin.version>5.8.0.7211</maven.sonar.plugin.version>
+		<maven.javadoc.version>3.12.0</maven.javadoc.version>
+		<maven.deploy.plugin.version>3.2.0</maven.deploy.plugin.version>
+		<nexus.staging.maven.plugin.version>1.7.0</nexus.staging.maven.plugin.version>
+		<maven.source.plugin.version>3.4.0</maven.source.plugin.version>
+		<maven.gpg.plugin.version>3.2.8</maven.gpg.plugin.version>
+		<!-- kattu CI greps pl.project13.maven:git-commit-id-plugin -->
+		<git.commit.id.plugin.version>4.9.10</git.commit.id.plugin.version>
+		<central.publishing.maven.plugin.version>0.11.0</central.publishing.maven.plugin.version>
+
+		<!-- Sonar / JaCoCo -->
+		<sonar.coverage.exclusions>
+			**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/dto/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/*BootApplication.java
+		</sonar.coverage.exclusions>
+		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
+		<!-- JaCoCo gate: 100% instruction/line on non-excluded packages -->
+		<jacoco.coverage.ratio>1.00</jacoco.coverage.ratio>
+
+		<!-- ── Third-party (latest checked against Maven Central) ───────────── -->
+		<!-- Source: https://central.sonatype.com/artifact/org.postgresql/postgresql -->
+		<postgresql.version>42.7.13</postgresql.version>
+		<!-- modelmapper 2.x last line (3.x is a major); commons pin. Source: Maven Central -->
+		<modelmapper.version>2.4.5</modelmapper.version>
+		<!-- Jackson 2.x (Boot 4 default is Jackson 3; MOSIP/kernel need Jackson 2) -->
+		<!-- Do NOT name this jackson-bom.version — Boot parent uses that for tools.jackson (Jackson 3). -->
+		<jackson2.bom.version>2.22.3</jackson2.bom.version>
+		<jackson-annotations.version>2.22</jackson-annotations.version>
+		<jackson-core.version>2.22.3</jackson-core.version>
+		<jackson-databind.version>2.22.3</jackson-databind.version>
+
+		<!-- ── MOSIP (external — no kernel-bom) ─────────────────────────────── -->
+		<!-- commons/kernel must be installed locally for these SNAPSHOTs (aligned with bio-utils). -->
+		<kernel.core.version>1.4.1-SNAPSHOT</kernel.core.version>
+		<kernel.auth.adapter.version>1.4.1-SNAPSHOT</kernel.auth.adapter.version>
+		<!-- Sibling API version follows this reactor -->
+		<kernel.audit.api.version>${project.version}</kernel.audit.api.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring Cloud aligned with Boot 4.1.1 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- Jackson 2.22.x BOM — overrides Boot-managed Jackson 2 patches for MOSIP -->
+			<dependency>
+				<groupId>com.fasterxml.jackson</groupId>
+				<artifactId>jackson-bom</artifactId>
+				<version>${jackson2.bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!--
+				kernel-core: Shared MOSIP kernel APIs (exceptions, logging facades, HTTP wrappers).
+				Pinned explicitly — do NOT import kernel-bom (Boot 4.1.1 is the BOM equivalent).
+				Version: ${kernel.core.version}. License: MPL-2.0.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-core</artifactId>
+				<version>${kernel.core.version}</version>
+			</dependency>
+			<!--
+				kernel-auth-adapter: Bearer-token validation (loaded at runtime via loader.path in Docker;
+				compile for openapi profile / optional local). License: MPL-2.0.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-auth-adapter</artifactId>
+				<version>${kernel.auth.adapter.version}</version>
+			</dependency>
+			<!--
+				kernel-auditmanager-api: Embeddable audit entity, repository, AuditHandlerImpl, AuditUtils.
+				Reactor sibling — version follows ${project.version}.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-auditmanager-api</artifactId>
+				<version>${kernel.audit.api.version}</version>
+			</dependency>
+
+			<!--
+				springdoc-openapi-starter-webmvc-ui: Swagger UI + OpenAPI 3 for /audits.
+				License: Apache-2.0.
+			-->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.openapi.version}</version>
+			</dependency>
+
+			<!-- Align Jackson 2.x with MOSIP/kernel (Boot 4 default is Jackson 3) -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson-annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+			</dependency>
+
+			<!--
+				postgresql: Production JDBC driver for audit.app_audit_log.
+				License: BSD-2-Clause (PostgreSQL).
+			-->
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<!--
+				modelmapper: Optional DTO↔entity mapping bean in AuditConfig (handler maps manually today).
+				Pinned on 2.4.5 (last 2.x; commons-aligned). License: Apache-2.0.
+			-->
+			<dependency>
+				<groupId>org.modelmapper</groupId>
+				<artifactId>modelmapper</artifactId>
+				<version>${modelmapper.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!--
+			spring-boot-starter-test: JUnit 5, Mockito, AssertJ, Spring Test — inherited by all modules.
+			Version from Boot parent 4.1.1. Scope: test. License: Apache-2.0 (starter).
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--
+			junit-vintage-engine: Runs legacy org.junit.Test (JUnit 4) classes alongside Jupiter.
+			Scope: test. License: EPL-2.0.
+		-->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--
+			lombok: Compile-time codegen (@Data) for Audit entity/DTOs. Scope: provided.
+			Version from Boot parent. License: MIT.
+		-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<distributionManagement>
+		<snapshotRepository>
 			<id>ossrh</id>
-			<name>MavenCentralRepository</name>
-			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-        <repository>
-            <id>central</id>
-            <name>MavenCentral</name>
-            <layout>default</layout>
-            <url>https://repo1.maven.org/maven2</url>
-            <snapshots>
-            <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-	
-<distributionManagement>
-	<snapshotRepository>
-		<id>ossrh</id>
-			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<url>https://central.sonatype.com/repository/maven-snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
 			<url>https://central.sonatype.com/api/v1/publisher</url>
 		</repository>
 	</distributionManagement>
-        <build>
+
+	<build>
+		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven.surefire.plugin.version}</version>
-					<configuration>
-						<skipTests>${skipTests}</skipTests>
-						<skip>false</skip>
-						<argLine>
-							${argLine} --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --illegal-access=permit
-						</argLine>
-					</configuration>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${maven.sonar.plugin.version}</version>
 				</plugin>
 				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${maven.jacoco.version}</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>report</id>
-							<phase>prepare-package</phase>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
-					</executions>
+					<groupId>org.springdoc</groupId>
+					<artifactId>springdoc-openapi-maven-plugin</artifactId>
+					<version>${springdoc.openapi.maven.plugin.version}</version>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven.javadoc.version}</version>
-					<configuration>
-           				<doclint>none</doclint>
-       				</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>${maven.jar.plugin.version}</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							</manifest>
-							<manifestEntries>
-								<Project-Name>${project.name}</Project-Name>
-								<Project-Version>${project.version}</Project-Version>
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>${maven.war.plugin.version}</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							</manifest>
-							<manifestEntries>
-								<Project-Name>${project.name}</Project-Name>
-								<Project-Version>${project.version}</Project-Version>
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.version}</version>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>${central.publishing.maven.plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
-					<aggregate>true</aggregate>
-					<doclint>none</doclint>
+					<publishingServerId>ossrh</publishingServerId>
+					<autoPublish>false</autoPublish>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
+				<version>${maven.compiler.plugin.version}</version>
 				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
+					<release>${java.version}</release>
+					<parameters>true</parameters>
+					<compilerArgs>
+						<arg>--enable-preview</arg>
+					</compilerArgs>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-            <plugin>
-              <artifactId>maven-deploy-plugin</artifactId>
-              <version>2.8.1</version>
-              <executions>
-                 <execution>
-                    <id>default-deploy</id>
-                    <phase>deploy</phase>
-                    <goals>
-                       <goal>deploy</goal>
-                    </goals>
-                 </execution>
-              </executions>
-           </plugin>
-               	<plugin>
-					<groupId>org.sonatype.central</groupId>
-					<artifactId>central-publishing-maven-plugin</artifactId>
-					<version>${central.publishing.maven.plugin.version}</version>
-					<extensions>true</extensions>
-					<configuration>
-						<publishingServerId>ossrh</publishingServerId>
-						<autoPublish>false</autoPublish>
-					</configuration>
-				</plugin>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-source-plugin</artifactId>
-                  <inherited>true</inherited>
-                  <version>2.2.1</version>
-                  <executions>
-                        <execution>
-                          <id>attach-sources</id>
-                          <goals>
-                                <goal>jar-no-fork</goal>
-                          </goals>
-                        </execution>
-                  </executions>
-                </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<skip>false</skip>
+					<argLine>
+						@{argLine}
+						--add-modules=ALL-SYSTEM
+						--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
+						--add-opens java.base/java.lang=ALL-UNNAMED
+						--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+						--add-opens java.base/java.util=ALL-UNNAMED
+						--add-opens java.base/java.util.concurrent=ALL-UNNAMED
+						--add-opens java.base/java.io=ALL-UNNAMED
+						--add-opens java.base/java.time=ALL-UNNAMED
+						--enable-preview
+					</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${maven.jacoco.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/constant/**</exclude>
+						<exclude>**/config/**</exclude>
+						<exclude>**/dto/**</exclude>
+						<exclude>**/entity/**</exclude>
+						<exclude>**/exception/**</exclude>
+						<exclude>**/repository/**</exclude>
+						<exclude>**/request/**</exclude>
+						<exclude>**/*BootApplication.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>INSTRUCTION</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${jacoco.coverage.ratio}</minimum>
+										</limit>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${jacoco.coverage.ratio}</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven.jar.plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Project-Name>${project.name}</Project-Name>
+							<Project-Version>${project.version}</Project-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doclint>none</doclint>
+					<failOnError>false</failOnError>
+					<failOnWarnings>false</failOnWarnings>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>${maven.gpg.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<gpgArguments>
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>${git.commit.id.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<includeOnlyProperties>
+						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+					</includeOnlyProperties>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+					<dotGitDirectory>${project.basedir}/../.git</dotGitDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven.deploy.plugin.version}</version>
+				<configuration>
+					<!-- Parent aggregator is not published; modules publish individually when enabled. -->
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-              <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>3.2.0</version>
-                  <executions>
-                        <execution>
-                          <id>attach-javadocs</id>
-                          <goals>
-                                <goal>jar</goal>
-                          </goals>
-                        </execution>
-                  </executions>
-                  <configuration>
-                          <doclint>none</doclint>
-                  </configuration>
-                </plugin>
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-gpg-plugin</artifactId>
-                  <version>1.5</version>
-                  <executions>
-                        <execution>
-                          <id>sign-artifacts</id>
-                          <phase>verify</phase>
-                          <goals>
-                                <goal>sign</goal>
-                          </goals>
-		          <configuration>
-                		<gpgArguments>
-                    			<arg>--pinentry-mode</arg>
-                    			<arg>loopback</arg>
-                		</gpgArguments>
-            		 </configuration>
-                        </execution>
-                  </executions>
-                </plugin>
-		<plugin>
-    			<groupId>pl.project13.maven</groupId>
-			<artifactId>git-commit-id-plugin</artifactId>
-			<version>3.0.1</version>
-			<executions>
-        			<execution>
-			        	<id>get-the-git-infos</id>
-					<goals>
-						<goal>revision</goal>
-            				</goals>
-            				<phase>validate</phase>
- 				</execution>
- 			</executions>
- 			<configuration>
-				<generateGitPropertiesFile>true</generateGitPropertiesFile>
-				<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    		<includeOnlyProperties>
-                        		<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-                        		<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-                    		</includeOnlyProperties>
-                    		<commitIdGenerationMode>full</commitIdGenerationMode>
- 				<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-			</configuration>
-		</plugin>
-          </plugins>
-        </build>
-		<scm>
-                <connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
-                <developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
-                <url>https://github.com/mosip/audit-manager</url>
-                <tag>HEAD</tag>
-        </scm>
-		<licenses>
-          <license>
-                <name>MPL 2.0</name>
-                <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-          </license>
-        </licenses>
-		<developers>
-                <developer>
-			<name>mosip</name>
-                  <email>mosip.emailnotifier@gmail.com</email>
-			<organization>MOSIP</organization>
-			<organizationUrl>https://www.mosip.io</organizationUrl>
-                </developer>
-        </developers>
 	<profiles>
 		<profile>
 			<id>sonar</id>
@@ -295,7 +472,6 @@
 					<plugin>
 						<groupId>org.sonarsource.scanner.maven</groupId>
 						<artifactId>sonar-maven-plugin</artifactId>
-						<version>${maven.sonar.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>verify</phase>
@@ -309,4 +485,42 @@
 			</build>
 		</profile>
 	</profiles>
-	</project>
+
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<name>Central Snapshots</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<licenses>
+		<license>
+			<name>MPL 2.0</name>
+			<url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
+		<developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
+		<url>https://github.com/mosip/audit-manager</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>MOSIP</name>
+			<email>mosip.emailnotifier@gmail.com</email>
+			<organization>io.mosip</organization>
+			<organizationUrl>https://github.com/mosip/audit-manager</organizationUrl>
+		</developer>
+	</developers>
+</project>

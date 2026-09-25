@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,7 +35,7 @@ import io.mosip.kernel.core.http.RequestWrapper;
 
 public class AuditControllerTest {
 
-	@MockBean
+	@MockitoBean
 	private AuditManagerServiceImpl service;
 
 	@Autowired
@@ -44,7 +44,7 @@ public class AuditControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@MockBean
+	@MockitoBean
 	private AuditRepository auditRepository;
 
 	@WithUserDetails("reg-processor")
