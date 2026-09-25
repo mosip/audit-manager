@@ -52,7 +52,7 @@ public class AuditManagerController {
 	 * @param requestDto {@link AuditRequestDto} having required fields for auditing
 	 * @return The {@link AuditResponseDto} having the status of audit
 	 */
-	@Operation(summary = "Persist a audit", description = "persist a audit", tags = { "auditmanager" })
+	@Operation(summary = "Persist a audit", description = "persist a audit")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success or you may find errors in error array in response"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized" ,content = @Content(schema = @Schema(hidden = true))),

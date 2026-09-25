@@ -1,261 +1,112 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.mosip.kernel</groupId>
+
+	<parent>
+		<groupId>io.mosip.kernel</groupId>
+		<artifactId>audit-manager</artifactId>
+		<version>1.4.1-SNAPSHOT</version>
+	</parent>
 
 	<artifactId>kernel-auditmanager-api</artifactId>
-	<version>1.4.0-SNAPSHOT</version>
-     <properties>		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<version>1.4.1-SNAPSHOT</version>
+	<name>kernel-auditmanager-api</name>
+	<description>
+		Embeddable MOSIP audit library: JPA entity (audit.app_audit_log), AuditRepository,
+		AuditRequestDto / AuditRequestBuilder, AuditUtils validation, and AuditHandlerImpl
+		(persists validated events). Consume from other MOSIP services for in-process auditing,
+		or transitively via kernel-auditmanager-service. JDK 21, Spring Boot 4.1.1, no kernel-bom.
+		Depends on kernel-core 1.4.1-SNAPSHOT.
+	</description>
+	<url>https://github.com/mosip/audit-manager</url>
 
-		<!-- maven -->
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
-		<maven.compiler.version>3.8.0</maven.compiler.version>
+	<properties>
+		<sonar.coverage.exclusions>
+			**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**
+		</sonar.coverage.exclusions>
+		<!-- Child module .git is two levels up from kernel/kernel-auditmanager-api -->
+		<git.commit.id.plugin.dotGitDirectory>${project.basedir}/../../.git</git.commit.id.plugin.dotGitDirectory>
+	</properties>
 
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
-		<maven.javadoc.version>3.6.3</maven.javadoc.version>
-		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
-		<central.publishing.maven.plugin.version>0.11.0</central.publishing.maven.plugin.version>
-
-     	<kernel.core.version>1.3.1-rc.1</kernel.core.version>
-     	
-	 	<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
-		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java
-"</sonar.coverage.exclusions>
-		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
-     </properties>
-     
-     <dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.mosip.kernel</groupId>
-				<artifactId>kernel-bom</artifactId>
-				<version>${kernel.core.version}</version>
-				<type>pom</type>
-			    <scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 	<dependencies>
+		<!--
+			kernel-core: MOSIP exceptions, AuditHandler SPI, logging SPI, HTTP wrappers.
+			License: MPL-2.0. Version from parent DM (${kernel.core.version}).
+		-->
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-core</artifactId>
-			<version>${kernel.core.version}</version>
 		</dependency>
+		<!--
+			spring-boot-starter-data-jpa: JPA repositories + Hibernate for Audit entity.
+			Version from Boot parent 4.1.1. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!--
+			spring-boot-starter-validation: Bean Validation (@NotNull/@Size on entity).
+			Version from Boot parent. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+		<!--
+			h2: In-memory DB for local/tests (schema AUDIT). Dual EPL-1.0 OR MPL-2.0; MOSIP elects MPL-2.0.
+			Scope: runtime.
+		-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!--
+			postgresql: Production JDBC (optional at API compile for dialect awareness).
+			License: BSD-2-Clause (PostgreSQL). Version ${postgresql.version}.
+		-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
+		<!--
+			modelmapper: Bean in AuditConfig for optional DTO↔entity mapping.
+			License: Apache-2.0. Version ${modelmapper.version} (2.4.5).
+		-->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+		<!--
+			slf4j-api: Logging facade used alongside kernel-core Logger SPI.
+			Version from Boot parent. License: MIT.
+		-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 	</dependencies>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/api/v1/publisher</url>
-		</repository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>ossrh</id>
-			<name>MavenCentralRepository</name>
-			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 	<build>
 		<plugins>
+			<!-- Library module — do not bind spring-boot:repackage (no main class). -->
 			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<configuration>
+					<dotGitDirectory>${project.basedir}/../../.git</dotGitDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
-				<executions>
-					<execution>
-						<id>default-deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>${central.publishing.maven.plugin.version}</version>
-				<extensions>true</extensions>
 				<configuration>
-					<publishingServerId>ossrh</publishingServerId>
-					<autoPublish>false</autoPublish>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<inherited>true</inherited>
-				<version>2.2.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-              <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>${maven.javadoc.version}</version>
-                  <executions>
-                        <execution>
-                          <id>attach-javadocs</id>
-                          <goals>
-                                <goal>jar</goal>
-                          </goals>
-                        </execution>
-                  </executions>
-                  <configuration>
-                          <doclint>none</doclint>
-                  </configuration>
-                </plugin>
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-gpg-plugin</artifactId>
-                  <version>1.5</version>
-                  <executions>
-                        <execution>
-                          <id>sign-artifacts</id>
-                          <phase>verify</phase>
-                          <goals>
-                                <goal>sign</goal>
-                          </goals>
-		          <configuration>
-                		<gpgArguments>
-                    			<arg>--pinentry-mode</arg>
-                    			<arg>loopback</arg>
-                		</gpgArguments>
-            		 </configuration>
-                        </execution>
-                  </executions>
-                </plugin>
-		<plugin>
-    			<groupId>pl.project13.maven</groupId>
-			<artifactId>git-commit-id-plugin</artifactId>
-			<version>3.0.1</version>
-			<executions>
-        			<execution>
-			        	<id>get-the-git-infos</id>
-					<goals>
-						<goal>revision</goal>
-            				</goals>
-            				<phase>validate</phase>
- 				</execution>
- 			</executions>
- 			<configuration>
-				<generateGitPropertiesFile>true</generateGitPropertiesFile>
-				<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    		<includeOnlyProperties>
-                        		<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-                        		<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-                    		</includeOnlyProperties>
-                    		<commitIdGenerationMode>full</commitIdGenerationMode>
- 				<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-			</configuration>
-		</plugin>
-		<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
-				<configuration>
-					<skipTests>false</skipTests>
 					<skip>false</skip>
-					<argLine>
-						${argLine} --add-opens
-						java.xml/jdk.xml.internal=ALL-UNNAMED
-						--illegal-access=permit
-					</argLine>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.maven.plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-          </plugins>
-        </build>
-		<scm>
-                <connection>scm:git:git://github.com/mosip/audit-manager.git</connection>
-                <developerConnection>scm:git:ssh://github.com:mosip/audit-manager.git</developerConnection>
-                <url>https://github.com/mosip/audit-manager</url>
-                <tag>HEAD</tag>
-        </scm>
-		<licenses>
-          <license>
-                <name>MPL 2.0</name>
-                <url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-          </license>
-        </licenses>
-		<developers>
-                <developer>
-			<name>mosip</name>
-                  <email>mosip.emailnotifier@gmail.com</email>
-			<organization>MOSIP</organization>
-			<organizationUrl>https://www.mosip.io</organizationUrl>
-                </developer>
-        </developers>
-		<name>Audit manager api</name>
-		<description>Audit manager api for Mosip</description>
-        <url>https://github.com/mosip/audit-manager</url>
-	</project>
+		</plugins>
+	</build>
+</project>

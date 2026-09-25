@@ -20,6 +20,7 @@ on:
       - 'master'
       - '1.*'
       - 'release*'
+      - 'issue*'
 
 jobs:
   build-maven-audit-manager:
@@ -27,6 +28,8 @@ jobs:
     with:
       SERVICE_LOCATION: ./kernel/
       BUILD_ARTIFACT: kernel-auditmanager-service
+      # Boot 4 ZIP layout JARs are not +x; kattu only zips -executable unless listed here.
+      MAVEN_NON_EXEC_ARTIFACTS: kernel-auditmanager-service
     secrets:
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}

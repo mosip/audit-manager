@@ -1,63 +1,175 @@
-THIRD-PARTY NOTICES
+NOTICES
 
-Copyright © MOSIP.
+Copyright (c) MOSIP.
 All rights reserved.
 
-This project includes third-party components distributed under licenses
-that require attribution. The following sections list those components
-and their respective licenses.
+This project is licensed under MPL 2.0 (see LICENSE). Third-party
+versions below match kernel/pom.xml and the resolved Maven dependency
+tree (checked against Maven Central on 2026-09-25; jars refreshed with
+`mvn -U dependency:resolve`). Full license texts: licenses/.
+
+MOSIP open-source license matrix (compatible with MPL 2.0 / Use with MOSIP):
+
+  License                          Compatible?   Use with MOSIP?   Comments
+  -------------------------------  ------------  ----------------  --------
+  BSD (2-Clause, 3-Clause)         Yes           Yes               Code can be combined freely
+  MIT                              Yes           Yes               Code can be combined freely
+  Apache-2.0                       Yes           Yes               Permissive; meet attribution
+  MPL-2.0                          Yes           Yes               Code can be combined freely
+  ISC                              Yes           Yes               Keep ISC text + attribution;
+                                                                   ISC code stays ISC; project MPL
+  EPL                              No            No                Differing requirements vs MPL
+  LGPLv3                           Yes           No                May be included; LGPLv3 may
+                                                                   apply to the combined work
+  GPLv2                            No            No                No explicit MPL 2.0 compatibility
+  GPLv3                            Yes           No                Combined work must be GPLv3
+  AGPLv3                           Yes           No                Combined work must be AGPLv3
+  Creative Commons (software)      No            No                Not designed for software
+  CC-BY-4.0                        —             —                 To be reviewed (creative works)
+  Python-2.0                       Yes           Yes               Comply with both; keep notices
+  AFL-2.0                          No            No                Clauses conflict with MPL 2.0
+  AFL-2.1                          Yes           Yes               Keep AFL notice + attribution;
+                                                                   AFL code stays AFL; project MPL
+  ODC-By-1.0                       No            No                Database license; not for software
+  CDDL-1.0                         Yes           Yes               Weak copyleft coexistence:
+                                                                   each file keeps its license;
+                                                                   include both license texts
+  Unicode-DFS-2016                 Yes           Yes               Keep Unicode notice/disclaimers;
+                                                                   Unicode files stay Unicode-DFS
+  BlueOak-1.0.0                    Yes           Yes               Keep license text or link
+  OFL-1.1                          Yes           Yes               Fonts; include full OFL text
+  Zlib                             Yes           Yes               Include original zlib license text
+  0BSD                             Yes           Yes               Permissive; broad use/redistribution
+
+Project-specific dual / electable licenses used by this stack:
+  EDL-1.0                          Yes           Yes               Elect for Jakarta Persistence
+  PostgreSQL                       Yes           Yes               BSD-style JDBC
+  Bouncy Castle                    Yes           Yes               MIT-style (transitive)
+
+Dual-licensed jars: MOSIP elects an allowed option (never EPL, GPL, AGPL, or
+LGPLv3 as the product license). Where only EPL OR GPL-2.0+CPE is offered
+(Jakarta Servlet), those are platform/transitive deps — document here; do not
+relicense MOSIP code under them. Dual Apache-2.0 OR LGPL (java-json-tools):
+MOSIP elects Apache-2.0.
+
+Pinned platform (stable GA; not latest milestone):
+  Spring Boot parent ........ 4.1.1          (latest GA 4.1.x; 4.2.x is milestone)
+  Spring Cloud BOM .......... 2025.1.3       (latest GA for Boot 4.1; 2026.x is milestone)
+  springdoc-openapi ......... 3.1.1
+  Jackson 2 BOM ............. 2.22.3         (property jackson2.bom.version)
+  JDK ....................... 21
+  Project / MOSIP stack ..... 1.4.1-SNAPSHOT (commons + bio-utils aligned)
+  modelmapper ............... 2.4.5          (2.x line; 3.x is a major bump — not taken)
+
+Resolved runtime / compile highlights (service tree, 2026-09-25):
+  Spring Framework .......... 7.0.9
+  Spring Security ........... 7.1.1
+  Spring Cloud Context ...... 5.0.3
+  Tomcat embed .............. 11.0.24
+  Hibernate ORM ............. 7.4.5.Final
+  HikariCP .................. 7.0.2
+  Logback ................... 1.5.38
+  SLF4J ..................... 2.0.18
+  swagger-ui (webjars) ...... 5.32.14
+  Lombok .................... 1.18.46
+  H2 (local/test) ........... 2.4.240
+  PostgreSQL JDBC ........... 42.7.13
+  JUnit Jupiter / Vintage ... 6.0.3 (test)
+  Mockito ................... 5.23.0 (test)
 
 ===========================
- Apache License 2.0
+MPL-2.0 (LICENSE / licenses/MPL-2.0.txt)
 ===========================
-• Spring Boot & Spring Security
-  (Starter Security, Starter Validation, Starter Data JPA, Starter Web,
-   Configuration Processor, Security Test, Spring Boot Maven Plugin)
 
-• SpringDoc OpenAPI
-  (SpringDoc OpenAPI Maven Plugin, SpringDoc OpenAPI Starter WebMVC UI)
-
-• JSON Simple (com.googlecode.json-simple)
-
-• Central Publishing Maven Plugin
-
-• Git Commit ID Maven Plugin
-
-• Apache Maven Plugins:
-  - maven-surefire-plugin
-  - maven-gpg-plugin
-  - maven-javadoc-plugin
-  - maven-source-plugin
-  - maven-jar-plugin
-  - maven-war-plugin
-  - maven-compiler-plugin
-
-• ModelMapper
-
-• Log4j API
-
-• Jackson Datatype JSR310
+- This repository (io.mosip.kernel:audit-manager 1.4.1-SNAPSHOT)
+- io.mosip.kernel:kernel-auditmanager-api 1.4.1-SNAPSHOT
+- io.mosip.kernel:kernel-auditmanager-service 1.4.1-SNAPSHOT
+- io.mosip.kernel:kernel-core 1.4.1-SNAPSHOT
+- io.mosip.kernel:kernel-auth-adapter 1.4.1-SNAPSHOT
+- com.h2database:h2 2.4.240 (MPL-2.0 OR EPL-1.0; MOSIP elects MPL-2.0)
 
 ===========================
- Mozilla Public License 2.0
+MIT License (licenses/MIT.txt)
 ===========================
-• MOSIP Kernel Libraries
-  (kernel-bom, kernel-core, kernel-logger-logback,
-   kernel-auth-adapter, kernel-auditmanager-api)
 
-====================================
- PostgreSQL License (BSD-style)
-====================================
-• PostgreSQL JDBC Driver
+- org.projectlombok:lombok 1.18.46 (Boot-managed)
+- org.slf4j:slf4j-api 2.0.18 (Boot-managed / transitive)
+- com.auth0:java-jwt 3.19.4 / jwks-rsa 0.24.1 (transitive via kernel-*)
+- org.bouncycastle:bcprov-jdk18on / bcpkix-jdk18on / bcutil-jdk18on (Bouncy Castle Licence; MIT-style)
 
 ===========================
- Eclipse Public License
+Apache-2.0 (licenses/Apache-2.0.txt)
 ===========================
-• H2 Database Engine (EPL 1.0)
 
-• Jakarta Servlet API (EPL 2.0)
+- Spring Boot 4.1.1 / Spring Framework 7.0.9 / Spring Security 7.1.1 / Spring Cloud 2025.1.3
+- org.springdoc:springdoc-openapi-starter-webmvc-ui 3.1.1 (+ starter-common / webmvc-api)
+- org.webjars:swagger-ui 5.32.14 (Apache-2.0; UI assets)
+- com.fasterxml.jackson:jackson-bom 2.22.3 (property `jackson2.bom.version`; not Boot's Jackson 3 `jackson-bom.version`)
+- com.fasterxml.jackson.core:jackson-annotations 2.22
+- com.fasterxml.jackson.core:jackson-core 2.22.3
+- com.fasterxml.jackson.core:jackson-databind 2.22.3
+- com.fasterxml.jackson.datatype:jackson-datatype-jsr310 / jdk8 (via jackson-bom 2.22.3)
+- org.springframework.boot:spring-boot-jackson2 4.1.1 (Jackson 2 ObjectMapper bridge)
+- org.modelmapper:modelmapper 2.4.5
+- org.apache.tomcat.embed:* 11.0.24 (Boot-managed)
+- com.zaxxer:HikariCP 7.0.2
+- org.hibernate.orm:hibernate-core 7.4.5.Final (Apache-2.0 since 7.0)
+- com.github.java-json-tools:* (LGPL-3.0+ OR Apache-2.0; MOSIP elects Apache-2.0) — transitive via kernel-core
+- io.micrometer:* / io.prometheus:* (Boot / actuator transitive)
+- Maven build plugins (compiler 3.16.0, surefire 3.6.0, jar 3.5.1, source 3.4.0,
+  javadoc 3.12.0, gpg 3.2.8, deploy 3.2.0, jacoco 0.8.15,
+  git-commit-id-plugin 4.9.10, central-publishing 0.11.0, sonar 5.8.0.7211)
 
-------------------------------------------------------------
-Full license texts for all components are available in the
-`license/` directory of this repository.
-------------------------------------------------------------
+===========================
+PostgreSQL License (licenses/PostgreSQL.txt)
+===========================
+
+- org.postgresql:postgresql 42.7.13
+
+===========================
+BSD-3-Clause / BSD-3-Clause-No-Nuclear (licenses/BSD-3-Clause-No-Nuclear-License.txt)
+===========================
+
+- com.github.jai-imageio:jai-imageio-core 1.4.0 (transitive via kernel-core)
+- org.hamcrest:hamcrest (test scope)
+
+===========================
+EDL-1.0 (licenses/EDL-1.0.txt) — elect this side of dual EPL/EDL
+===========================
+
+- jakarta.persistence:jakarta.persistence-api 3.2.0 (Boot / kernel-core transitive)
+
+===========================
+EPL-2.0 (+ optional GPL-2.0 with Classpath exception) — platform / test only
+(licenses/EPL-2.0.txt)
+===========================
+
+MOSIP matrix: EPL and GPLv2 are not approved product licenses. These jars are
+transitive / test-only from Boot and Jakarta EE; MOSIP code remains MPL-2.0.
+
+- jakarta.servlet:jakarta.servlet-api (EPL-2.0 OR GPL-2.0+CPE) — Boot web
+- jakarta.transaction:jakarta.transaction-api (EPL-2.0 OR GPL-2.0+CPE) — transitive
+- org.aspectj:aspectjweaver 1.9.25.1 (EPL-2.0) — transitive via kernel-core JPA stack
+- org.junit.* / junit-vintage-engine 6.0.3 (EPL-2.0) — test scope only
+- org.jacoco:* 0.8.15 (EPL-2.0) — build / coverage only
+
+===========================
+EPL-1.0 (licenses/EPL-1.0.txt) — dual-license / logging stack
+===========================
+
+- com.h2database:h2 — alternate to MPL-2.0 (MOSIP elects MPL-2.0; text kept for completeness)
+- ch.qos.logback:logback-classic / logback-core 1.5.38 (EPL-1.0 OR LGPL-2.1; Boot-managed)
+
+===========================
+Artifacts produced
+===========================
+
+- kernel-auditmanager-api-${version}.jar
+    Embeddable library (entity, repository, handler, utils).
+
+- kernel-auditmanager-service-${version}.jar
+    Fat / runnable Spring Boot service (ZIP layout). Use run-local.bat /
+    run-local.sh or `java -jar` with config-server / loader.path env vars.
+
+- …-sources.jar / …-javadoc.jar
+    Source and API documentation attachments for Maven Central.
