@@ -121,8 +121,8 @@
 				<version>${kernel.core.version}</version>
 			</dependency>
 			<!--
-				kernel-auth-adapter: Bearer-token validation (loaded at runtime via loader.path in Docker;
-				compile for openapi profile / optional local). License: MPL-2.0.
+				kernel-auth-adapter: Bearer-token validation (Maven 1.4.1-SNAPSHOT; bundled in service fat JAR).
+				License: MPL-2.0.
 			-->
 			<dependency>
 				<groupId>io.mosip.kernel</groupId>

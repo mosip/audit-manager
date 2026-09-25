@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Audit manager application.
  *
  * <p>
- * Security is provided by {@code kernel-auth-adapter} (Bearer tokens) when
- * present on the classpath / {@code loader.path}. Unused kernel-core
- * generators/validators are excluded.
+ * Security is provided by {@code kernel-auth-adapter} (Bearer tokens) on the
+ * application classpath (Maven 1.4.1-SNAPSHOT in the Boot fat JAR). Unused
+ * kernel-core generators/validators are excluded.
  * </p>
  *
  * @author Dharmesh Khandelwal

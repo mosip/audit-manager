@@ -130,7 +130,7 @@ chmod +x run-local.sh
 | `SPRING_PROFILES_ACTIVE` | `local` | Spring profile (`local` = H2) |
 | `SPRING_CLOUD_CONFIG_URI` | _(empty)_ | Config-server URI |
 | `SPRING_CLOUD_CONFIG_LABEL` | _(empty)_ | Config-server label / branch |
-| `loader_path_env` | `.` | Extra JARs (`-Dloader.path`, e.g. auth-adapter) |
+| `loader_path_env` | `.` | Optional extra JARs (`-Dloader.path`); auth-adapter is in the fat JAR |
 | `IMAGE` | `kernel-auditmanager-service` | Docker image name |
 | `JDK_JAVA_OPTIONS` | _(empty)_ | Extra JVM options for `docker` runs |
 
@@ -170,7 +170,7 @@ docker build -t kernel-auditmanager-service .
 
 Helm: [`helm/auditmanager/`](helm/auditmanager/). Install helper: [`deploy/install.sh`](deploy/).
 
-Runtime env (container): `active_profile_env`, `spring_config_label_env`, `spring_config_url_env`, `iam_adapter_url_env`, `loader_path_env`.
+Runtime env (container): `active_profile_env`, `spring_config_label_env`, `spring_config_url_env`, `loader_path_env` (optional extras). `kernel-auth-adapter` **1.4.1-SNAPSHOT** is bundled in the Boot fat JAR from Maven (no `configure_start.sh` / `iam_adapter_url_env` wget).
 
 ---
 
